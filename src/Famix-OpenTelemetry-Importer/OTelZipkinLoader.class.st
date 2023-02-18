@@ -15,17 +15,30 @@ OTelZipkinLoader >> load: traces [
 
 	"Instantiate trace model from Zipkin data."
 
-	| spanEntity traceEntity |
-	"lazy initialize"
+	| spanEntity traceEntity context |
 	self model.
 	entityDict := entityDict ifNil: [ Dictionary new: traces size ].
-
 	traces do: [ :trace | "load parent before children"
 		trace reverseDo: [ :span | 
 			spanEntity := self loadSpan: span.
-			traceEntity := self loadTrace: span of: spanEntity.
-			self loadTraceContext: span of: traceEntity ] ].
+			traceEntity := self loadTrace: span.
+			context := self loadContext: span.
+			spanEntity trace: traceEntity.
+			spanEntity context: context.
+			traceEntity addContext: context ] ].
 	^ model
+]
+
+{ #category : #'private - loading' }
+OTelZipkinLoader >> loadContext: span [
+
+	| ctxData serviceName |
+	ctxData := span at: 'localEndpoint'.
+	serviceName := ctxData at: 'serviceName'.
+	^ entityDict at: serviceName ifAbsentPut: [ 
+		  self newContext
+			  name: serviceName;
+			  data: ctxData ]
 ]
 
 { #category : #'private - loading' }
@@ -41,28 +54,14 @@ OTelZipkinLoader >> loadSpan: span [
 	span
 		at: 'parentId'
 		ifPresent: [ :pid | spanEntity parent: (entityDict at: pid) ].
-	entityDict at: spanEntity id put: spanEntity.
-	^ spanEntity
+	^ entityDict at: spanEntity id put: spanEntity
 ]
 
 { #category : #'private - loading' }
-OTelZipkinLoader >> loadTrace: span of: spanEntity [
+OTelZipkinLoader >> loadTrace: span [
 
-	^ span at: 'traceId' ifPresent: [ :tid | 
-		  (entityDict at: tid ifAbsentPut: [ self newTrace id: tid ])
-			  addSpan: spanEntity;
-			  yourself ]
-]
-
-{ #category : #'private - loading' }
-OTelZipkinLoader >> loadTraceContext: span of: traceEntity [
-
-	| serviceName |
-	serviceName := span at: 'localEndpoint' at: 'serviceName'.
-	^ traceEntity contexts
-		  detect: [ :ctx | ctx name = serviceName ]
-		  ifNone: [ 
-			  traceEntity addContext: (self newTraceContext
-					   name: serviceName;
-					   data: (span at: 'localEndpoint')) ]
+	^ span
+		  at: 'traceId'
+		  ifPresent: [ :tid | 
+		  entityDict at: tid ifAbsentPut: [ self newTrace id: tid ] ]
 ]
