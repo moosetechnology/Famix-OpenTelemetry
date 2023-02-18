@@ -5,8 +5,8 @@ Class {
 	#name : #FamixOTelTrace,
 	#superclass : #FamixOTelEntity,
 	#instVars : [
+		'#contexts => FMMany type: #FamixOTelTraceContext opposite: #trace',
 		'#id => FMProperty',
-		'#name => FMProperty',
 		'#spans => FMMany type: #FamixOTelSpan opposite: #trace'
 	],
 	#category : #'Famix-OpenTelemetry-Entities-Entities'
@@ -22,9 +22,31 @@ FamixOTelTrace class >> annotation [
 ]
 
 { #category : #adding }
+FamixOTelTrace >> addContext: anObject [
+	<generated>
+	^ self contexts add: anObject
+]
+
+{ #category : #adding }
 FamixOTelTrace >> addSpan: anObject [
 	<generated>
 	^ self spans add: anObject
+]
+
+{ #category : #accessing }
+FamixOTelTrace >> contexts [
+	"Relation named: #contexts type: #FamixOTelTraceContext opposite: #trace"
+
+	<generated>
+	<derived>
+	^ contexts
+]
+
+{ #category : #accessing }
+FamixOTelTrace >> contexts: anObject [
+
+	<generated>
+	contexts value: anObject
 ]
 
 { #category : #accessing }
@@ -42,20 +64,6 @@ FamixOTelTrace >> id: anObject [
 ]
 
 { #category : #accessing }
-FamixOTelTrace >> name [
-
-	<FMProperty: #name type: #String>
-	<generated>
-	^ name
-]
-
-{ #category : #accessing }
-FamixOTelTrace >> name: anObject [
-	<generated>
-	name := anObject
-]
-
-{ #category : #accessing }
 FamixOTelTrace >> spans [
 	"Relation named: #spans type: #FamixOTelSpan opposite: #trace"
 
@@ -69,11 +77,4 @@ FamixOTelTrace >> spans: anObject [
 
 	<generated>
 	spans value: anObject
-]
-
-{ #category : #navigation }
-FamixOTelTrace >> spansGroup [
-	<generated>
-	<navigation: 'Spans'>
-	^ MooseSpecializedGroup withAll: self spans asSet
 ]

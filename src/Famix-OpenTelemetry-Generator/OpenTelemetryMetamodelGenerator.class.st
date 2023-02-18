@@ -3,7 +3,8 @@ Class {
 	#superclass : #FamixMetamodelGenerator,
 	#instVars : [
 		'trace',
-		'span'
+		'span',
+		'context'
 	],
 	#category : #'Famix-OpenTelemetry-Generator'
 }
@@ -29,6 +30,10 @@ OpenTelemetryMetamodelGenerator >> defineClasses [
 		         newClassNamed: #Trace
 		         comment:
 		         'I give the big picture of what happens when a request is made by user or an application. Traces are composed of `Span`s.'.
+	context := builder
+		           newClassNamed: #TraceContext
+		           comment:
+		           'I hold informations about a `Trace` context. Several contexts can exist in a distributed system.'.
 	span := builder
 		        newClassNamed: #Span
 		        comment:
@@ -39,7 +44,8 @@ OpenTelemetryMetamodelGenerator >> defineClasses [
 OpenTelemetryMetamodelGenerator >> defineProperties [
 
 	trace property: #id type: #String.
-	trace property: #name type: #String.
+	context property: #name type: #String.
+	context property: #data type: #Object.
 	span property: #id type: #String.
 	span property: #name type: #String.
 	span property: #timestamp type: #Number.
@@ -50,6 +56,7 @@ OpenTelemetryMetamodelGenerator >> defineProperties [
 { #category : #definition }
 OpenTelemetryMetamodelGenerator >> defineRelations [
 
-	(trace property: #spans) <>-* (span property: #trace).
-	(span property: #children) <>-* (span property: #parent)
+	(trace property: #spans) -* (span property: #trace).
+	(trace property: #contexts) -* (context property: #trace).
+	(span property: #children) -* (span property: #parent)
 ]

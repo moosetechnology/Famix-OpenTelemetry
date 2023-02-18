@@ -48,13 +48,6 @@ FamixOTelSpan >> children: anObject [
 	children value: anObject
 ]
 
-{ #category : #navigation }
-FamixOTelSpan >> childrenGroup [
-	<generated>
-	<navigation: 'Children'>
-	^ MooseSpecializedGroup withAll: self children asSet
-]
-
 { #category : #accessing }
 FamixOTelSpan >> duration [
 
@@ -102,7 +95,6 @@ FamixOTelSpan >> parent [
 	"Relation named: #parent type: #FamixOTelSpan opposite: #children"
 
 	<generated>
-	<container>
 	^ parent
 ]
 
@@ -111,13 +103,6 @@ FamixOTelSpan >> parent: anObject [
 
 	<generated>
 	parent := anObject
-]
-
-{ #category : #navigation }
-FamixOTelSpan >> parentGroup [
-	<generated>
-	<navigation: 'Parent'>
-	^ MooseSpecializedGroup with: self parent
 ]
 
 { #category : #accessing }
@@ -153,7 +138,6 @@ FamixOTelSpan >> trace [
 	"Relation named: #trace type: #FamixOTelTrace opposite: #spans"
 
 	<generated>
-	<container>
 	^ trace
 ]
 
@@ -162,11 +146,4 @@ FamixOTelSpan >> trace: anObject [
 
 	<generated>
 	trace := anObject
-]
-
-{ #category : #navigation }
-FamixOTelSpan >> traceGroup [
-	<generated>
-	<navigation: 'Trace'>
-	^ MooseSpecializedGroup with: self trace
 ]
