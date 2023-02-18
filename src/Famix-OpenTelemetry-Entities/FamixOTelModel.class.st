@@ -4,6 +4,12 @@ Class {
 	#category : #'Famix-OpenTelemetry-Entities-Model'
 }
 
+{ #category : #accessing }
+FamixOTelModel class >> allSubmetamodelsPackagesNames [
+	<generated>
+	^ #(#'Moose-Query' #'Famix-Traits')
+]
+
 { #category : #meta }
 FamixOTelModel class >> annotation [
 	<FMClass: #FamixOTelModel super: #MooseModel>

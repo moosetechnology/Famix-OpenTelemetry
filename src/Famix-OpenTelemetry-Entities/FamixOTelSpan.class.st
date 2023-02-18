@@ -5,14 +5,15 @@ Class {
 	#name : #FamixOTelSpan,
 	#superclass : #FamixOTelEntity,
 	#instVars : [
+		'#children => FMMany type: #FamixOTelSpan opposite: #parent',
+		'#context => FMOne type: #FamixOTelContext opposite: #spans',
+		'#duration => FMProperty',
 		'#id => FMProperty',
 		'#name => FMProperty',
-		'#timestamp => FMProperty',
-		'#duration => FMProperty',
+		'#parent => FMOne type: #FamixOTelSpan opposite: #children',
 		'#tags => FMProperty',
-		'#trace => FMOne type: #FamixOTelTrace opposite: #spans',
-		'#children => FMMany type: #FamixOTelSpan opposite: #parent',
-		'#parent => FMOne type: #FamixOTelSpan opposite: #children'
+		'#timestamp => FMProperty',
+		'#trace => FMOne type: #FamixOTelTrace opposite: #spans'
 	],
 	#category : #'Famix-OpenTelemetry-Entities-Entities'
 }
@@ -46,6 +47,21 @@ FamixOTelSpan >> children: anObject [
 
 	<generated>
 	children value: anObject
+]
+
+{ #category : #accessing }
+FamixOTelSpan >> context [
+	"Relation named: #context type: #FamixOTelContext opposite: #spans"
+
+	<generated>
+	^ context
+]
+
+{ #category : #accessing }
+FamixOTelSpan >> context: anObject [
+
+	<generated>
+	context := anObject
 ]
 
 { #category : #accessing }
@@ -88,6 +104,22 @@ FamixOTelSpan >> name [
 FamixOTelSpan >> name: anObject [
 	<generated>
 	name := anObject
+]
+
+{ #category : #accessing }
+FamixOTelSpan >> origin [
+	"Relation named: #origin type: #FamixTMethod opposite: #otelSpans"
+
+	<generated>
+	<FMProperty: #origin type: #FamixTMethod opposite: #otelSpans>
+	^ self attributeAt: #origin ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+FamixOTelSpan >> origin: anObject [
+
+	<generated>
+	self attributeAt: #origin put: (FMMultivalueLink on: self update: #otelSpans from: self origin to: anObject).
 ]
 
 { #category : #accessing }

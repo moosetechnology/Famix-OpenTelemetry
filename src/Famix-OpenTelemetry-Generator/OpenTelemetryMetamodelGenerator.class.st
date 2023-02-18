@@ -23,6 +23,12 @@ OpenTelemetryMetamodelGenerator class >> prefix [
 	^ #FamixOTel
 ]
 
+{ #category : #accessing }
+OpenTelemetryMetamodelGenerator class >> submetamodels [
+
+	^ { FamixGenerator }
+]
+
 { #category : #definition }
 OpenTelemetryMetamodelGenerator >> defineClasses [
 
@@ -31,9 +37,9 @@ OpenTelemetryMetamodelGenerator >> defineClasses [
 		         comment:
 		         'I give the big picture of what happens when a request is made by user or an application. Traces are composed of `Span`s.'.
 	context := builder
-		           newClassNamed: #TraceContext
+		           newClassNamed: #Context
 		           comment:
-		           'I hold informations about a `Trace` context. Several contexts can exist in a distributed system.'.
+		           'I hold informations about the context of a set of `Span`s. Several contexts can exist per trace in a distributed system.'.
 	span := builder
 		        newClassNamed: #Span
 		        comment:
@@ -58,5 +64,9 @@ OpenTelemetryMetamodelGenerator >> defineRelations [
 
 	(trace property: #spans) -* (span property: #trace).
 	(trace property: #contexts) -* (context property: #trace).
-	(span property: #children) -* (span property: #parent)
+	(context property: #spans) -* (span property: #context).
+	(span property: #children) -* (span property: #parent).
+	(span property: #origin)
+	*-
+	((self remoteTrait: #TMethod withPrefix: #Famix) property: #otelSpans)
 ]
