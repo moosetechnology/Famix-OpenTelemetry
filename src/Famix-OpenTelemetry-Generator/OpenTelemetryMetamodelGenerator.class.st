@@ -63,7 +63,7 @@ OpenTelemetryMetamodelGenerator >> defineProperties [
 OpenTelemetryMetamodelGenerator >> defineRelations [
 
 	(trace property: #spans) -* (span property: #trace).
-	(trace property: #contexts) -* (context property: #trace).
+	(trace property: #contexts) *-* (context property: #traces).
 	(context property: #spans) -* (span property: #context).
 	(span property: #children) -* (span property: #parent).
 	(span property: #origin)

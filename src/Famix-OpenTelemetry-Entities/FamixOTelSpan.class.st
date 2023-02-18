@@ -5,15 +5,15 @@ Class {
 	#name : #FamixOTelSpan,
 	#superclass : #FamixOTelEntity,
 	#instVars : [
-		'#children => FMMany type: #FamixOTelSpan opposite: #parent',
-		'#context => FMOne type: #FamixOTelContext opposite: #spans',
-		'#duration => FMProperty',
 		'#id => FMProperty',
 		'#name => FMProperty',
-		'#parent => FMOne type: #FamixOTelSpan opposite: #children',
-		'#tags => FMProperty',
 		'#timestamp => FMProperty',
-		'#trace => FMOne type: #FamixOTelTrace opposite: #spans'
+		'#duration => FMProperty',
+		'#tags => FMProperty',
+		'#trace => FMOne type: #FamixOTelTrace opposite: #spans',
+		'#context => FMOne type: #FamixOTelContext opposite: #spans',
+		'#children => FMMany type: #FamixOTelSpan opposite: #parent',
+		'#parent => FMOne type: #FamixOTelSpan opposite: #children'
 	],
 	#category : #'Famix-OpenTelemetry-Entities-Entities'
 }

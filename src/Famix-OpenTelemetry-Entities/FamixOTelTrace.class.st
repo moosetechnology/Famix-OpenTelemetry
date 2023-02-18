@@ -5,9 +5,9 @@ Class {
 	#name : #FamixOTelTrace,
 	#superclass : #FamixOTelEntity,
 	#instVars : [
-		'#contexts => FMMany type: #FamixOTelContext opposite: #trace',
 		'#id => FMProperty',
-		'#spans => FMMany type: #FamixOTelSpan opposite: #trace'
+		'#spans => FMMany type: #FamixOTelSpan opposite: #trace',
+		'#contexts => FMMany type: #FamixOTelContext opposite: #traces'
 	],
 	#category : #'Famix-OpenTelemetry-Entities-Entities'
 }
@@ -35,7 +35,7 @@ FamixOTelTrace >> addSpan: anObject [
 
 { #category : #accessing }
 FamixOTelTrace >> contexts [
-	"Relation named: #contexts type: #FamixOTelContext opposite: #trace"
+	"Relation named: #contexts type: #FamixOTelContext opposite: #traces"
 
 	<generated>
 	<derived>

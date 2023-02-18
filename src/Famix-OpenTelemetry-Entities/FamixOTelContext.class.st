@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'#name => FMProperty',
 		'#data => FMProperty',
-		'#trace => FMOne type: #FamixOTelTrace opposite: #contexts',
+		'#traces => FMMany type: #FamixOTelTrace opposite: #contexts',
 		'#spans => FMMany type: #FamixOTelSpan opposite: #context'
 	],
 	#category : #'Famix-OpenTelemetry-Entities-Entities'
@@ -26,6 +26,12 @@ FamixOTelContext class >> annotation [
 FamixOTelContext >> addSpan: anObject [
 	<generated>
 	^ self spans add: anObject
+]
+
+{ #category : #adding }
+FamixOTelContext >> addTrace: anObject [
+	<generated>
+	^ self traces add: anObject
 ]
 
 { #category : #accessing }
@@ -73,16 +79,16 @@ FamixOTelContext >> spans: anObject [
 ]
 
 { #category : #accessing }
-FamixOTelContext >> trace [
-	"Relation named: #trace type: #FamixOTelTrace opposite: #contexts"
+FamixOTelContext >> traces [
+	"Relation named: #traces type: #FamixOTelTrace opposite: #contexts"
 
 	<generated>
-	^ trace
+	^ traces
 ]
 
 { #category : #accessing }
-FamixOTelContext >> trace: anObject [
+FamixOTelContext >> traces: anObject [
 
 	<generated>
-	trace := anObject
+	traces value: anObject
 ]
