@@ -1,9 +1,7 @@
 "
 I am part of the `OpenTelemetryImporter` pipeline.
-My subclasses apply transformation to OpenTelemetry traces.
+My subclasses apply transformations to an OpenTelemetry trace model.
 I use the `value:` method to be polymorphic with blocks.
-Pre-transformers handle raw trace data after extracting.
-Post-transformers handle the instantiated model after loading.
 "
 Class {
 	#name : #OTelAbstractTransformer,

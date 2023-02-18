@@ -38,7 +38,7 @@ OTelZipkinExtractor >> extract [
 	^ (NeoJSONReader on: data readStream) parseList
 ]
 
-{ #category : #accessing }
+{ #category : #parameters }
 OTelZipkinExtractor >> limit: anInteger [
 
 	self parameters at: 'limit' put: anInteger
@@ -50,13 +50,13 @@ OTelZipkinExtractor >> parameters [
 	^ parameters ifNil: [ parameters := Dictionary new ]
 ]
 
-{ #category : #accessing }
+{ #category : #parameters }
 OTelZipkinExtractor >> serviceName: aString [
 
 	self parameters at: 'serviceName' put: aString
 ]
 
-{ #category : #accessing }
+{ #category : #parameters }
 OTelZipkinExtractor >> spanName: aString [
 
 	self parameters at: 'spanName' put: aString
