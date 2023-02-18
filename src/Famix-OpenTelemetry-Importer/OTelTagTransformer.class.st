@@ -2,7 +2,7 @@
 I am a post-transformer that modifies `Span` tags that fit a predicate with a pluggable block.
 "
 Class {
-	#name : #OTelTagPostTransformer,
+	#name : #OTelTagTransformer,
 	#superclass : #OTelAbstractTransformer,
 	#instVars : [
 		'predicate',
@@ -12,31 +12,31 @@ Class {
 }
 
 { #category : #accessing }
-OTelTagPostTransformer >> block [
+OTelTagTransformer >> block [
 
 	^ block
 ]
 
 { #category : #accessing }
-OTelTagPostTransformer >> block: anObject [
+OTelTagTransformer >> block: anObject [
 
 	block := anObject
 ]
 
 { #category : #accessing }
-OTelTagPostTransformer >> predicate [
+OTelTagTransformer >> predicate [
 
 	^ predicate
 ]
 
 { #category : #accessing }
-OTelTagPostTransformer >> predicate: anObject [
+OTelTagTransformer >> predicate: anObject [
 
 	predicate := anObject
 ]
 
 { #category : #transforming }
-OTelTagPostTransformer >> value: model [
+OTelTagTransformer >> value: model [
 
 	"Apply the block to span tags that fit the predicate."
 
