@@ -32,7 +32,7 @@ OTelElasticsearchLoader >> buildSpan: aSpan [
 			duration: aSpan span duration us ].
 	span id: (self idOfSpan: aSpan).
 	span
-		timestamp: (aSpan at: #'@timestamp');
+		timestamp: (DateAndTime fromString: (aSpan at: #'@timestamp'));
 		tags: aSpan labels asDictionary.
 	^ span
 ]
