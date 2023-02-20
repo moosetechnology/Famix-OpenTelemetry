@@ -26,11 +26,9 @@ OTelElasticsearchLoader >> buildSpan: aSpan [
 
 	| span |
 	span := self newSpan.
-	aSpan span ifNotNil: [ 
-		span
-			name: aSpan span name;
-			duration: aSpan span duration us ].
+	aSpan span ifNotNil: [ span duration: aSpan span duration us ].
 	span id: (self idOfSpan: aSpan).
+	span name: (self nameOfSpan: aSpan).
 	span
 		timestamp: (DateAndTime fromString: (aSpan at: #'@timestamp'));
 		tags: aSpan labels asDictionary.
@@ -54,6 +52,11 @@ OTelElasticsearchLoader >> load: rawTraces [
 		trace addSpan: (self buildSpan: rawTrace) ].
 	self buildParent: rawTraces.
 	^ self model
+]
+
+{ #category : #'private-accessing' }
+OTelElasticsearchLoader >> nameOfSpan: aSpan [
+	^ (((aSpan at: #transaction) ifNil: [ aSpan at: #span ]) at: #name)
 ]
 
 { #category : #loading }
