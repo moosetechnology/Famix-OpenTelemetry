@@ -31,6 +31,8 @@ BaselineOfFamixOpenTelemetry >> definePackages: spec [
 
 	spec
 		package: 'Famix-OpenTelemetry-Entities';
+		package: 'Famix-OpenTelemetry-Entities-Extensions'
+		with: [ spec requires: #( 'Famix-OpenTelemetry-Entities' ) ];
 		package: 'Famix-OpenTelemetry-Generator';
 		package: 'Famix-OpenTelemetry-Importer';
 		package: 'Famix-OpenTelemetry-Importer-Elasticsearch' with: [ 

@@ -33,7 +33,7 @@ OTelElasticsearchExtractor >> endpoint: anEndpoint [
 { #category : #extraction }
 OTelElasticsearchExtractor >> extract [
 
-	^ api performRequest hits hits
+	^ api performRequest hits hits collect: #_source
 ]
 
 { #category : #accessing }
