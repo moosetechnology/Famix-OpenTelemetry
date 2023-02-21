@@ -28,17 +28,17 @@ OTelAbstractLoader >> model [
 { #category : #'entity creation' }
 OTelAbstractLoader >> newContext [
 
-	^ model add: FamixOTelContext new
+	^ self model add: FamixOTelContext new
 ]
 
 { #category : #'entity creation' }
 OTelAbstractLoader >> newSpan [
 
-	^ model add: FamixOTelSpan new
+	^ self model add: FamixOTelSpan new
 ]
 
 { #category : #'entity creation' }
 OTelAbstractLoader >> newTrace [
 
-	^ model add: FamixOTelTrace new
+	^ self model add: FamixOTelTrace new
 ]
