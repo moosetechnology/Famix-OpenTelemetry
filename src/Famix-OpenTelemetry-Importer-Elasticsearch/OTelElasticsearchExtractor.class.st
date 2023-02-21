@@ -56,6 +56,12 @@ OTelElasticsearchExtractor >> port: aPort [
 ]
 
 { #category : #accessing }
+OTelElasticsearchExtractor >> query: aQuery [
+
+	api query: aQuery
+]
+
+{ #category : #accessing }
 OTelElasticsearchExtractor >> size: aSize [
 
 	api size: aSize
