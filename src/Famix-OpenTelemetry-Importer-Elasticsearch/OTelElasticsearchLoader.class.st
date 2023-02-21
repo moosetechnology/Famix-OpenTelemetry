@@ -47,9 +47,13 @@ OTelElasticsearchLoader >> load: rawTraces [
 
 	self model.
 	rawTraces do: [ :rawTrace | 
-		| trace |
+		| trace span context |
+		context := self retrieveContext: rawTrace.
 		trace := self retrieveTrace: rawTrace.
-		trace addSpan: (self buildSpan: rawTrace) ].
+		span := self buildSpan: rawTrace.
+		trace addSpan: span.
+		context addTrace: trace.
+		context addSpan: span ].
 	self buildParent: rawTraces.
 	^ self model
 ]
@@ -57,6 +61,15 @@ OTelElasticsearchLoader >> load: rawTraces [
 { #category : #'private-accessing' }
 OTelElasticsearchLoader >> nameOfSpan: aSpan [
 	^ (((aSpan at: #transaction) ifNil: [ aSpan at: #span ]) at: #name)
+]
+
+{ #category : #loading }
+OTelElasticsearchLoader >> retrieveContext: aTrace [
+	^ self model entityStorage
+		  detect: [ :c | 
+			  (c isKindOf: FamixOTelContext) and: [ 
+				  c name = (aTrace at: #service) name ] ]
+		  ifNone: [ self newContext name: (aTrace at: #service) name ]
 ]
 
 { #category : #loading }
