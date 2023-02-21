@@ -11,29 +11,30 @@ Class {
 }
 
 { #category : #loading }
-OTelZipkinLoader >> load: traces [
+OTelZipkinLoader >> load: rawTraces [
 
 	"Instantiate trace model from Zipkin data."
 
-	| spanEntity traceEntity context |
-	self model.
-	entityDict := entityDict ifNil: [ Dictionary new: traces size ].
-	traces do: [ :trace | "load parent before children"
-		trace reverseDo: [ :span | 
-			spanEntity := self loadSpan: span.
-			traceEntity := self loadTrace: span.
-			context := self loadContext: span.
-			spanEntity trace: traceEntity.
-			spanEntity context: context.
-			traceEntity addContext: context ] ].
-	^ model
+	| span trace context |
+	entityDict := entityDict ifNil: [ Dictionary new: rawTraces size ].
+	rawTraces do: [ :rawTrace | "load parent before children"
+		rawTrace reverseDo: [ :rawSpan | 
+			span := self loadSpan: rawSpan.
+			trace := self loadTrace: rawSpan.
+			context := self loadContext: rawSpan.
+			span trace: trace.
+			span context: context.
+			trace contexts
+				detect: [ :ctx | ctx name = context name ]
+				ifNone: [ trace addContext: context ] ] ].
+	^ self model
 ]
 
 { #category : #'private - loading' }
-OTelZipkinLoader >> loadContext: span [
+OTelZipkinLoader >> loadContext: rawSpan [
 
 	| ctxData serviceName |
-	ctxData := span at: 'localEndpoint'.
+	ctxData := rawSpan at: 'localEndpoint'.
 	serviceName := ctxData at: 'serviceName'.
 	^ entityDict at: serviceName ifAbsentPut: [ 
 		  self newContext
@@ -42,25 +43,25 @@ OTelZipkinLoader >> loadContext: span [
 ]
 
 { #category : #'private - loading' }
-OTelZipkinLoader >> loadSpan: span [
+OTelZipkinLoader >> loadSpan: rawSpan [
 
-	| spanEntity |
-	spanEntity := self newSpan
-		              id: (span at: 'id');
-		              name: (span at: 'name');
-		              tags: (span at: 'tags');
-		              timestamp: (span at: 'timestamp');
-		              duration: (span at: 'duration').
-	span
+	| span |
+	span := self newSpan
+		        id: (rawSpan at: 'id');
+		        name: (rawSpan at: 'name');
+		        tags: (rawSpan at: 'tags');
+		        timestamp: (rawSpan at: 'timestamp');
+		        duration: (rawSpan at: 'duration').
+	rawSpan
 		at: 'parentId'
-		ifPresent: [ :pid | spanEntity parent: (entityDict at: pid) ].
-	^ entityDict at: spanEntity id put: spanEntity
+		ifPresent: [ :pid | span parent: (entityDict at: pid) ].
+	^ entityDict at: span id put: span
 ]
 
 { #category : #'private - loading' }
-OTelZipkinLoader >> loadTrace: span [
+OTelZipkinLoader >> loadTrace: rawSpan [
 
-	^ span
+	^ rawSpan
 		  at: 'traceId'
 		  ifPresent: [ :tid | 
 		  entityDict at: tid ifAbsentPut: [ self newTrace id: tid ] ]
