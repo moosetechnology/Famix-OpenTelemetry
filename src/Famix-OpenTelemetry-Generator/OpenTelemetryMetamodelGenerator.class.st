@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'trace',
 		'span',
-		'context'
+		'context',
+		'instEntity'
 	],
 	#category : #'Famix-OpenTelemetry-Generator'
 }
@@ -26,7 +27,7 @@ OpenTelemetryMetamodelGenerator class >> prefix [
 { #category : #accessing }
 OpenTelemetryMetamodelGenerator class >> submetamodels [
 
-	^ { FamixGenerator }
+	^ { FamixGenerator. FamixInstanceMetamodelGenerator }
 ]
 
 { #category : #definition }
@@ -39,11 +40,13 @@ OpenTelemetryMetamodelGenerator >> defineClasses [
 	context := builder
 		           newClassNamed: #Context
 		           comment:
-		           'I hold informations about the context of a set of `Span`s. Several contexts can exist per trace in a distributed system.'.
+		           'I hold informations about the context of a set of `Span`s. Several contexts can exist per `Trace` in a distributed system.'.
 	span := builder
 		        newClassNamed: #Span
 		        comment:
-		        'I represent a unit of work or operation. Spans are the building blocks of `Trace`s.'
+		        'I represent a unit of work or operation. Spans are the building blocks of `Trace`s.'.
+
+	instEntity := self remoteEntity: #Entity withPrefix: #FamixInst
 ]
 
 { #category : #definition }
@@ -68,5 +71,7 @@ OpenTelemetryMetamodelGenerator >> defineRelations [
 	(span property: #children) -* (span property: #parent).
 	(span property: #origin)
 	*-
-	((self remoteTrait: #TMethod withPrefix: #Famix) property: #otelSpans)
+	((self remoteTrait: #TMethod withPrefix: #Famix) property: #otelSpans).
+	(span property: #arguments) -* (instEntity property: #otelSpan).
+	(span property: #result) - (instEntity property: #otelSpan)
 ]
