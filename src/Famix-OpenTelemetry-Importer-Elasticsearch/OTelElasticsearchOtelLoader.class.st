@@ -29,12 +29,15 @@ OTelElasticsearchOtelLoader >> buildSpan: aSpan [
 
 	| span |
 	span := self newSpan.
-	aSpan span ifNotNil: [ span duration: aSpan span duration us ].
 	span id: (self idOfSpan: aSpan).
 	span name: (self nameOfSpan: aSpan).
 	span
 		timestamp: (DateAndTime fromString: (aSpan at: #'@timestamp'));
-		tags: (aSpan associations select: [ :assoc | assoc key beginsWith: #Attributes ]) asDictionary.
+		tags: (aSpan associations
+				 select: [ :assoc | assoc key beginsWith: #Attributes ]
+				 thenCollect: [ :assoc | 
+					 (assoc key withoutPrefix: #'Attributes.') -> assoc value ])
+				asDictionary.
 	^ span
 ]
 
