@@ -1,8 +1,8 @@
 "
-This loader is dedicated to traces that have been collected using an APM Server
+This loader is dedicated to data collected using a OtelCollector and sent to Elasticsearch
 "
 Class {
-	#name : #OTelElasticsearchLoader,
+	#name : #OTelElasticsearchOtelLoader,
 	#superclass : #OTelAbstractLoader,
 	#instVars : [
 		'api'
@@ -11,21 +11,21 @@ Class {
 }
 
 { #category : #loading }
-OTelElasticsearchLoader >> buildParent: rawTraces [
+OTelElasticsearchOtelLoader >> buildParent: rawSpans [
 
-	rawTraces do: [ :rawTrace | 
-		rawTrace parent ifNotNil: [ :parent | 
+	rawSpans do: [ :rawSpan | 
+		(rawSpan at: #ParentSpanId) ifNotNil: [ :parent | 
 			| childSpan |
 			childSpan := (self model allWithType: FamixOTelSpan) detect: [ 
-				             :span | span id = (self idOfSpan: rawTrace) ].
+				             :span | span id = (self idOfSpan: rawSpan) ].
 			(self model allWithType: FamixOTelSpan)
-				detect: [ :span | span id = parent id ]
+				detect: [ :span | span id = parent ]
 				ifOne: [ :parentSpan | 
 					parentSpan addChildren: childSpan ] ] ]
 ]
 
 { #category : #loading }
-OTelElasticsearchLoader >> buildSpan: aSpan [
+OTelElasticsearchOtelLoader >> buildSpan: aSpan [
 
 	| span |
 	span := self newSpan.
@@ -34,17 +34,17 @@ OTelElasticsearchLoader >> buildSpan: aSpan [
 	span name: (self nameOfSpan: aSpan).
 	span
 		timestamp: (DateAndTime fromString: (aSpan at: #'@timestamp'));
-		tags: aSpan labels asDictionary.
+		tags: (aSpan associations select: [ :assoc | assoc key beginsWith: #Attributes ]) asDictionary.
 	^ span
 ]
 
 { #category : #'private-accessing' }
-OTelElasticsearchLoader >> idOfSpan: aSpan [
-	^ (((aSpan at: #transaction) ifNil: [ aSpan at: #span ]) at: #id)
+OTelElasticsearchOtelLoader >> idOfSpan: aSpan [
+	^ aSpan at: #SpanId
 ]
 
 { #category : #loading }
-OTelElasticsearchLoader >> load: rawTraces [
+OTelElasticsearchOtelLoader >> load: rawTraces [
 
 	"Instantiate trace model from raw data."
 
@@ -62,25 +62,25 @@ OTelElasticsearchLoader >> load: rawTraces [
 ]
 
 { #category : #'private-accessing' }
-OTelElasticsearchLoader >> nameOfSpan: aSpan [
-	^ (((aSpan at: #transaction) ifNil: [ aSpan at: #span ]) at: #name)
+OTelElasticsearchOtelLoader >> nameOfSpan: aSpan [
+	^ aSpan at: #Name
 ]
 
 { #category : #loading }
-OTelElasticsearchLoader >> retrieveContext: aTrace [
+OTelElasticsearchOtelLoader >> retrieveContext: aTrace [
 	^ self model entityStorage
 		  detect: [ :c | 
 			  (c isKindOf: FamixOTelContext) and: [ 
-				  c name = (aTrace at: #service) name ] ]
-		  ifNone: [ self newContext name: (aTrace at: #service) name ]
+				  c name = (aTrace at: #'Resource.service.name') ] ]
+		  ifNone: [ self newContext name: (aTrace at: #'Resource.service.name') ]
 ]
 
 { #category : #loading }
-OTelElasticsearchLoader >> retrieveTrace: aTrace [
+OTelElasticsearchOtelLoader >> retrieveTrace: aTrace [
 
 	^ self model entityStorage
 		  detect: [ :t | 
 			  (t isKindOf: FamixOTelTrace) and: [ 
-				  t id = (aTrace at: #trace) id ] ]
-		  ifNone: [ self newTrace id: (aTrace at: #trace) id ]
+				  t id = (aTrace at: #TraceId) ] ]
+		  ifNone: [ self newTrace id: (aTrace at: #TraceId) ]
 ]
