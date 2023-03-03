@@ -41,12 +41,12 @@ FamixOTelSpan >> addChildren: anObject [
 
 { #category : #accessing }
 FamixOTelSpan >> arguments [
-	"Relation named: #arguments type: #FamixInstEntity opposite: #otelSpan"
+	"Relation named: #arguments type: #FamixValueOfType opposite: #argumentInSpan"
 
 	<generated>
 	<derived>
-	<FMProperty: #arguments type: #FamixInstEntity opposite: #otelSpan>
-	^ self attributeAt: #arguments ifAbsentPut: [ FMMultivalueLink on: self opposite: #otelSpan: ]
+	<FMProperty: #arguments type: #FamixValueOfType opposite: #argumentInSpan>
+	^ self attributeAt: #arguments ifAbsentPut: [ FMMultivalueLink on: self opposite: #argumentInSpan: ]
 ]
 
 { #category : #accessing }
@@ -162,10 +162,10 @@ FamixOTelSpan >> parent: anObject [
 
 { #category : #accessing }
 FamixOTelSpan >> result [
-	"Relation named: #result type: #FamixInstEntity opposite: #otelSpan"
+	"Relation named: #result type: #FamixValueOfType opposite: #resultInSpan"
 
 	<generated>
-	<FMProperty: #result type: #FamixInstEntity opposite: #otelSpan>
+	<FMProperty: #result type: #FamixValueOfType opposite: #resultInSpan>
 	^ self attributeAt: #result ifAbsent: [ nil ]
 ]
 
@@ -177,10 +177,10 @@ FamixOTelSpan >> result: anObject [
 	anObject ifNil: [ | otherSide |
 		otherSide :=  self result.
 		self attributeAt: #result put: anObject.
-		otherSide otelSpan: nil ]
+		otherSide resultInSpan: nil ]
 	ifNotNil: [ 
 		self attributeAt: #result put: anObject.
-		anObject otelSpan: self ]
+		anObject resultInSpan: self ]
 ]
 
 { #category : #accessing }

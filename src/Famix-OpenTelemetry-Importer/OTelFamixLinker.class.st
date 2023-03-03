@@ -1,48 +1,54 @@
+"
+I am a post-transformer that links `Span`s to their origin in a Famix model.
+The origin information is recovered from the tags using the configured keys.
+"
 Class {
 	#name : #OTelFamixLinker,
 	#superclass : #OTelAbstractTransformer,
 	#instVars : [
-		'famixModel',
-		'instModel'
+		'classKey',
+		'methodKey',
+		'importer'
 	],
 	#category : #'Famix-OpenTelemetry-Importer'
 }
 
 { #category : #accessing }
-OTelFamixLinker >> famixModel: model [
+OTelFamixLinker >> classKey: aString [
 
-	famixModel := model
+	classKey := aString
 ]
 
-{ #category : #'entity creation' }
-OTelFamixLinker >> instModel [
+{ #category : #accessing }
+OTelFamixLinker >> importer: aFamixValueImporter [
 
-	^ instModel ifNil: [ instModel := FamixInstModel new ]
+	importer := aFamixValueImporter
 ]
 
 { #category : #links }
-OTelFamixLinker >> linkClass: fullyQualifiedName [
+OTelFamixLinker >> linkOrigin: span [
 
-	| mooseName |
-	mooseName := '::' join: (fullyQualifiedName splitOn: $.).
-	^ (famixModel allUsing: FamixTClass) detect: [ :class | 
-		  class mooseName = mooseName ]
+	"Link the span origin to the Famix model."
+
+	| name |
+	name := span tags at: methodKey.
+	span origin:
+		((importer findTypeNamed: (span tags at: classKey)) methods detect: [ 
+			 :method | method name = name ])
 ]
 
-{ #category : #'entity creation' }
-OTelFamixLinker >> newEnumValue [
+{ #category : #accessing }
+OTelFamixLinker >> methodKey: aString [
 
-	^ self instModel add: FamixInstEnumValue new
+	methodKey := aString
 ]
 
-{ #category : #'entity creation' }
-OTelFamixLinker >> newObject [
+{ #category : #transforming }
+OTelFamixLinker >> value: model [
 
-	^ self instModel add: FamixInstObject new
-]
+	"Link trace model with a Java model using class and method tags."
 
-{ #category : #'entity creation' }
-OTelFamixLinker >> newPrimitive [
-
-	^ self instModel add: FamixInstPrimitive new
+	(model allWithType: FamixOTelSpan) do: [ :span | 
+		self linkOrigin: span ].
+	^ model
 ]

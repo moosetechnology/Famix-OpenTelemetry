@@ -1,37 +1,37 @@
 Class {
-	#name : #OpenTelemetryMetamodelGenerator,
+	#name : #FamixOpenTelemetryGenerator,
 	#superclass : #FamixMetamodelGenerator,
 	#instVars : [
 		'trace',
 		'span',
 		'context',
-		'instEntity'
+		'valueEntity'
 	],
 	#category : #'Famix-OpenTelemetry-Generator'
 }
 
 { #category : #accessing }
-OpenTelemetryMetamodelGenerator class >> packageName [
+FamixOpenTelemetryGenerator class >> packageName [
 
 	<ignoreForCoverage>
 	^ #'Famix-OpenTelemetry-Entities'
 ]
 
 { #category : #accessing }
-OpenTelemetryMetamodelGenerator class >> prefix [
+FamixOpenTelemetryGenerator class >> prefix [
 
 	<ignoreForCoverage>
 	^ #FamixOTel
 ]
 
 { #category : #accessing }
-OpenTelemetryMetamodelGenerator class >> submetamodels [
+FamixOpenTelemetryGenerator class >> submetamodels [
 
-	^ { FamixGenerator. FamixInstanceMetamodelGenerator }
+	^ { FamixGenerator. FamixValueGenerator }
 ]
 
 { #category : #definition }
-OpenTelemetryMetamodelGenerator >> defineClasses [
+FamixOpenTelemetryGenerator >> defineClasses [
 
 	trace := builder
 		         newClassNamed: #Trace
@@ -46,11 +46,11 @@ OpenTelemetryMetamodelGenerator >> defineClasses [
 		        comment:
 		        'I represent a unit of work or operation. Spans are the building blocks of `Trace`s.'.
 
-	instEntity := self remoteEntity: #Entity withPrefix: #FamixInst
+	valueEntity := self remoteEntity: #OfType withPrefix: #FamixValue
 ]
 
 { #category : #definition }
-OpenTelemetryMetamodelGenerator >> defineProperties [
+FamixOpenTelemetryGenerator >> defineProperties [
 
 	trace property: #id type: #String.
 	context property: #name type: #String.
@@ -63,7 +63,7 @@ OpenTelemetryMetamodelGenerator >> defineProperties [
 ]
 
 { #category : #definition }
-OpenTelemetryMetamodelGenerator >> defineRelations [
+FamixOpenTelemetryGenerator >> defineRelations [
 
 	(trace property: #spans) -* (span property: #trace).
 	(trace property: #contexts) *-* (context property: #traces).
@@ -72,6 +72,6 @@ OpenTelemetryMetamodelGenerator >> defineRelations [
 	(span property: #origin)
 	*-
 	((self remoteTrait: #TMethod withPrefix: #Famix) property: #otelSpans).
-	(span property: #arguments) -* (instEntity property: #otelSpan).
-	(span property: #result) - (instEntity property: #otelSpan)
+	(span property: #arguments) -* (valueEntity property: #argumentInSpan).
+	(span property: #result) - (valueEntity property: #resultInSpan)
 ]
