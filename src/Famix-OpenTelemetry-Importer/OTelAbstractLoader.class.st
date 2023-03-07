@@ -6,7 +6,8 @@ Class {
 	#name : #OTelAbstractLoader,
 	#superclass : #Object,
 	#instVars : [
-		'model'
+		'model',
+		'typeEntity'
 	],
 	#category : #'Famix-OpenTelemetry-Importer'
 }
@@ -23,6 +24,12 @@ OTelAbstractLoader >> load: traces [
 OTelAbstractLoader >> model [
 
 	^ model ifNil: [ model := FamixOTelModel new ]
+]
+
+{ #category : #accessing }
+OTelAbstractLoader >> model: aModel [
+
+	model := aModel
 ]
 
 { #category : #'entity creation' }

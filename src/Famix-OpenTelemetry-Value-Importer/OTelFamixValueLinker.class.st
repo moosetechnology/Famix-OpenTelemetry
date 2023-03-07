@@ -1,0 +1,59 @@
+"
+I am a post-transformer that links `Span`s to their origin in a Famix model, and generates a FamixValue model from serialized arguments and result.
+The arguments and result information is recovered from the tags using the configured keys.
+"
+Class {
+	#name : #OTelFamixValueLinker,
+	#superclass : #OTelFamixLinker,
+	#instVars : [
+		'argsKey',
+		'resultKey'
+	],
+	#category : #'Famix-OpenTelemetry-Value-Importer'
+}
+
+{ #category : #accessing }
+OTelFamixValueLinker >> argsKey: aString [
+
+	argsKey := aString
+]
+
+{ #category : #links }
+OTelFamixValueLinker >> linkArguments: span [
+
+	"Link the serialized arguments to the Famix model."
+
+	span origin parameters isEmpty ifTrue: [ ^ self ].
+	(importer parseValues: (span tags at: argsKey)) withIndexDo: [ :arg :i | 
+		arg typedEntity: (span origin parameters at: i).
+		arg argumentInSpan: span ]
+]
+
+{ #category : #links }
+OTelFamixValueLinker >> linkResult: span [
+
+	"Link the serialized result to the Famix model."
+
+	(importer isProcedure: span origin) ifTrue: [ ^ self ].
+	span result:
+		((importer parseValue: (span tags at: resultKey)) typedEntity:
+			 span origin)
+]
+
+{ #category : #accessing }
+OTelFamixValueLinker >> resultKey: aString [
+
+	resultKey := aString
+]
+
+{ #category : #transforming }
+OTelFamixValueLinker >> value: model [
+
+	"Link trace model with a Java model using class, method, args and result tags."
+
+	(model allWithType: FamixOTelSpan) do: [ :span | 
+		self linkOrigin: span.
+		self linkArguments: span.
+		self linkResult: span ].
+	^ model
+]

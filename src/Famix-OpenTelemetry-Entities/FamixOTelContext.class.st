@@ -1,5 +1,5 @@
 "
-I hold informations about the context of a set of `Span`s. Several contexts can exist per trace in a distributed system.
+I hold informations about the context of a set of `Span`s. Several contexts can exist per `Trace` in a distributed system.
 "
 Class {
 	#name : #FamixOTelContext,
