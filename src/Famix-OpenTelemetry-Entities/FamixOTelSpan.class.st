@@ -28,32 +28,9 @@ FamixOTelSpan class >> annotation [
 ]
 
 { #category : #adding }
-FamixOTelSpan >> addArgument: anObject [
-	<generated>
-	^ self arguments add: anObject
-]
-
-{ #category : #adding }
 FamixOTelSpan >> addChildren: anObject [
 	<generated>
 	^ self children add: anObject
-]
-
-{ #category : #accessing }
-FamixOTelSpan >> arguments [
-	"Relation named: #arguments type: #FamixValueOfType opposite: #argumentInSpan"
-
-	<generated>
-	<derived>
-	<FMProperty: #arguments type: #FamixValueOfType opposite: #argumentInSpan>
-	^ self attributeAt: #arguments ifAbsentPut: [ FMMultivalueLink on: self opposite: #argumentInSpan: ]
-]
-
-{ #category : #accessing }
-FamixOTelSpan >> arguments: anObject [
-
-	<generated>
-	self arguments value: anObject
 ]
 
 { #category : #accessing }
@@ -158,29 +135,6 @@ FamixOTelSpan >> parent: anObject [
 
 	<generated>
 	parent := anObject
-]
-
-{ #category : #accessing }
-FamixOTelSpan >> result [
-	"Relation named: #result type: #FamixValueOfType opposite: #resultInSpan"
-
-	<generated>
-	<FMProperty: #result type: #FamixValueOfType opposite: #resultInSpan>
-	^ self attributeAt: #result ifAbsent: [ nil ]
-]
-
-{ #category : #accessing }
-FamixOTelSpan >> result: anObject [
-
-	<generated>
-	(self attributeAt: #result ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
-	anObject ifNil: [ | otherSide |
-		otherSide :=  self result.
-		self attributeAt: #result put: anObject.
-		otherSide resultInSpan: nil ]
-	ifNotNil: [ 
-		self attributeAt: #result put: anObject.
-		anObject resultInSpan: self ]
 ]
 
 { #category : #accessing }

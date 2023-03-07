@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'trace',
 		'span',
-		'context',
-		'valueEntity'
+		'context'
 	],
 	#category : #'Famix-OpenTelemetry-Generator'
 }
@@ -27,7 +26,7 @@ FamixOpenTelemetryGenerator class >> prefix [
 { #category : #accessing }
 FamixOpenTelemetryGenerator class >> submetamodels [
 
-	^ { FamixGenerator. FamixValueGenerator }
+	^ { FamixGenerator }
 ]
 
 { #category : #definition }
@@ -44,9 +43,7 @@ FamixOpenTelemetryGenerator >> defineClasses [
 	span := builder
 		        newClassNamed: #Span
 		        comment:
-		        'I represent a unit of work or operation. Spans are the building blocks of `Trace`s.'.
-
-	valueEntity := self remoteEntity: #OfType withPrefix: #FamixValue
+		        'I represent a unit of work or operation. Spans are the building blocks of `Trace`s.'
 ]
 
 { #category : #definition }
@@ -71,7 +68,5 @@ FamixOpenTelemetryGenerator >> defineRelations [
 	(span property: #children) -* (span property: #parent).
 	(span property: #origin)
 	*-
-	((self remoteTrait: #TMethod withPrefix: #Famix) property: #otelSpans).
-	(span property: #arguments) -* (valueEntity property: #argumentInSpan).
-	(span property: #result) - (valueEntity property: #resultInSpan)
+	((self remoteTrait: #TMethod withPrefix: #Famix) property: #otelSpans)
 ]

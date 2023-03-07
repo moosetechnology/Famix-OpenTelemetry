@@ -9,7 +9,7 @@ Class {
 		'argsKey',
 		'resultKey'
 	],
-	#category : #'Famix-OpenTelemetry-Importer'
+	#category : #'Famix-OpenTelemetry-Value-Importer'
 }
 
 { #category : #accessing }
@@ -26,7 +26,7 @@ OTelFamixValueLinker >> linkArguments: span [
 	span origin parameters isEmpty ifTrue: [ ^ self ].
 	(importer parseValues: (span tags at: argsKey)) withIndexDo: [ :arg :i | 
 		arg typedEntity: (span origin parameters at: i).
-		span addArgument: arg ]
+		arg argumentInSpan: span ]
 ]
 
 { #category : #links }
