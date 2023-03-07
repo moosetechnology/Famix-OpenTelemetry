@@ -9,7 +9,7 @@ Class {
 		'argsKey',
 		'resultKey'
 	],
-	#category : #'Famix-OpenTelemetry-Value-Importer'
+	#category : #'Famix-OpenTelemetry-Importer-Value'
 }
 
 { #category : #accessing }
