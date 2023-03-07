@@ -37,9 +37,10 @@ BaselineOfFamixOpenTelemetry >> defineGroups: spec [
 			   'Famix-OpenTelemetry-Generator' 'Famix-OpenTelemetry-Presenter' );
 		group: 'Importer' with: #( 'Famix-OpenTelemetry-Importer' );
 		group: 'Elasticsearch'
-		with: #( 'Famix-OpenTelemetry-Importer-Elasticsearch'
+		with: #( 'default' 'Famix-OpenTelemetry-Importer-Elasticsearch'
 			   'ElasticsearchAPI' );
-		group: 'Value' with: #( 'Famix-OpenTelemetry-Value-Generator'
+		group: 'Value'
+		with: #( 'default' 'Famix-OpenTelemetry-Value-Generator'
 			   'Famix-OpenTelemetry-Value-Entities'
 			   'Famix-OpenTelemetry-Importer-Value'
 			   'FamixValue' )
