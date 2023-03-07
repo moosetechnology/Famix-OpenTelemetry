@@ -24,10 +24,10 @@ importer := OpenTelemetryImporter new
               transformers: { OTelTagTransformer new
                   predicate: [ :tag | "match a tag" ];
                   block: [ :value | "compute its new value" ] }.
-importer import.
+importer import. "returns a filled FamixOTelModel"
 ```
 
-## Modeling values
+## Modeling Values
 
 It is possible to model serialized runtime values stored in traces using [Famix-Value](https://github.com/moosetechnology/Famix-Value).
 To enable this feature, load the `Value` group:
@@ -53,8 +53,8 @@ importer transformers: { OTelFamixValueLinker new
     methodKey: 'method';
     argsKey: 'arguments';
     resultKey: 'result';
-    "configure the FamixValue importer"
-    importer: (FamixValueJavaJacksonImporter new "understands Java values serialized by the Jackson library"
+    "configure a FamixValue importer, this one understands JSON from the Jackson Java library"
+    importer: (FamixValueJavaJacksonImporter new
          linkedModel: javaModel;
          model: traceModel) }.
 importer import. "fills traceModel with FamixOTel and FamixValue entities"
