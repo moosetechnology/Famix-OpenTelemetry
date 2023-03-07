@@ -11,13 +11,51 @@ Metacello new
   load
 ```
 
-## Modelizing values
+## Importing
 
-It is possible to modelize serialized runtime values stored in traces using [Famix-Value](https://github.com/moosetechnology/Famix-Value), by loading the `Value` group:
+OpenTelemetry traces can be stored in a variety of telemetry backends, such as Zipkin or any OTelCollector.
+To fit this modularity, the importer works as a pipeline configured with an extractor, which fetches the raw trace data, and the loader, which parses the data and creates the model.
+Additionaly, it can be configured with transformers to process or apply modifications to the trace model.
+
+```st
+importer := OpenTelemetryImporter new
+              extractor: (OTelZipkinExtractor new endpoint: 'http://localhost:9411');
+              loader: OTelZipkinLoader new;
+              transformers: { OTelTagTransformer new
+                  predicate: [ :tag | "match a tag" ];
+                  block: [ :value | "compute its new value" ] }.
+importer import.
+```
+
+## Modeling values
+
+It is possible to model serialized runtime values stored in traces using [Famix-Value](https://github.com/moosetechnology/Famix-Value).
+To enable this feature, load the `Value` group:
 
 ```st
 Metacello new
   githubUser: 'moosetechnology' project: 'Famix-OpenTelemetry' commitish: 'main' path: 'src';
   baseline: 'FamixOpenTelemetry';
   load: 'Value'
+```
+
+A transformer, such as an instance of `OTelFamixValueLinker`, can be added to the importing pipeline to create a Value model.
+The values can also be linked to the model of the application that produced them by configuring its given FamixValue importer.
+In order to enable navigation between the traces and the values when inspecting entities, they must coexist in the same `FamixOTelValueModel`.
+
+```st
+traceModel := FamixOTelValueModel new.
+javaModel := MooseModel root at: 1. "model of the Java application that produced the traces"
+importer loader: (OTelZipkinLoader new model: traceModel).
+importer transformers: { OTelFamixValueLinker new
+    "keys of tags containing the relevant values"
+    classKey: 'class';
+    methodKey: 'method';
+    argsKey: 'arguments';
+    resultKey: 'result';
+    "configure the FamixValue importer"
+    importer: (FamixValueJavaJacksonImporter new "understands Java values serialized by the Jackson library"
+         linkedModel: javaModel;
+         model: traceModel) }.
+importer import. "fills traceModel with FamixOTel and FamixValue entities"
 ```
