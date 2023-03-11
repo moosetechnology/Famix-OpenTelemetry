@@ -35,17 +35,17 @@ OTelAbstractLoader >> model: aModel [
 { #category : #'entity creation' }
 OTelAbstractLoader >> newContext [
 
-	^ self model add: FamixOTelContext new
+	^ self model silentlyAdd: FamixOTelContext new
 ]
 
 { #category : #'entity creation' }
 OTelAbstractLoader >> newSpan [
 
-	^ self model add: FamixOTelSpan new
+	^ self model silentlyAdd: FamixOTelSpan new
 ]
 
 { #category : #'entity creation' }
 OTelAbstractLoader >> newTrace [
 
-	^ self model add: FamixOTelTrace new
+	^ self model silentlyAdd: FamixOTelTrace new
 ]
