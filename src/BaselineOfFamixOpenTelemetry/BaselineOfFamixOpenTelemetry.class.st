@@ -30,16 +30,16 @@ BaselineOfFamixOpenTelemetry >> defineDependencies: spec [
 BaselineOfFamixOpenTelemetry >> defineGroups: spec [
 
 	spec
-		group: 'default' with: #( 'Model' 'Importer' );
-		group: 'Model'
+		group: 'default' with: #( 'model' 'importer' );
+		group: 'model'
 		with:
 			#( 'Famix-OpenTelemetry-Entities' 'Famix-OpenTelemetry-Entities-Extensions'
 			   'Famix-OpenTelemetry-Generator' 'Famix-OpenTelemetry-Presenter' );
-		group: 'Importer' with: #( 'Famix-OpenTelemetry-Importer' );
-		group: 'Elasticsearch'
+		group: 'importer' with: #( 'Famix-OpenTelemetry-Importer' );
+		group: 'elasticsearch'
 		with: #( 'default' 'Famix-OpenTelemetry-Importer-Elasticsearch'
 			   'ElasticsearchAPI' );
-		group: 'Value'
+		group: 'value'
 		with: #( 'default' 'Famix-OpenTelemetry-Value-Generator'
 			   'Famix-OpenTelemetry-Value-Entities'
 			   'Famix-OpenTelemetry-Importer-Value'
