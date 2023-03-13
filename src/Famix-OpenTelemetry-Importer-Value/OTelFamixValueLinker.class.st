@@ -23,10 +23,17 @@ OTelFamixValueLinker >> linkArguments: span [
 
 	"Link the serialized arguments to the Famix model."
 
+	| index parameter |
 	span origin parameters isEmpty ifTrue: [ ^ self ].
-	(importer parseValues: (span tags at: argsKey)) withIndexDo: [ :arg :i | 
-		arg typedEntity: (span origin parameters at: i).
-		arg argumentInSpan: span ]
+	index := 0.
+	importer rawValues: (span tags at: argsKey) do: [ :rawArg | 
+		parameter := span origin parameters at: (index := index + 1).
+		importer
+			withTypeInference: (parameter ifNotNil: [ parameter declaredType ])
+			do: [ 
+				(importer importValue: rawArg)
+					typedEntity: parameter;
+					argumentInSpan: span ] ]
 ]
 
 { #category : #links }
@@ -35,9 +42,10 @@ OTelFamixValueLinker >> linkResult: span [
 	"Link the serialized result to the Famix model."
 
 	(importer isProcedure: span origin) ifTrue: [ ^ self ].
-	span result:
-		((importer parseValue: (span tags at: resultKey)) typedEntity:
-			 span origin)
+	importer withTypeInference: span origin declaredType do: [ 
+		(importer parseValue: (span tags at: resultKey))
+			typedEntity: span origin;
+			resultInSpan: span ]
 ]
 
 { #category : #accessing }
