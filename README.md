@@ -37,7 +37,7 @@ To enable this feature, load the `value` group:
 Metacello new
   githubUser: 'moosetechnology' project: 'Famix-OpenTelemetry' commitish: 'main' path: 'src';
   baseline: 'FamixOpenTelemetry';
-  load: 'Value'
+  load: 'value'
 ```
 
 A transformer, such as an instance of `OTelFamixValueLinker`, can be added to the import pipeline to create a FamixValue model.
