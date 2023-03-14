@@ -18,12 +18,13 @@ To fit this modularity, the importer works as a pipeline configured with an extr
 Additionaly, it can be configured with transformers to process or apply modifications to the trace model.
 
 ```st
-importer := OpenTelemetryImporter new
-              extractor: (OTelZipkinExtractor new endpoint: 'http://localhost:9411');
-              loader: OTelZipkinLoader new;
-              transformers: { OTelTagTransformer new
-                  predicate: [ :tag | "match a tag" ];
-                  block: [ :value | "compute its new value" ] }.
+importer := OpenTelemetryImporter new.
+importer
+  extractor: (OTelZipkinExtractor new endpoint: 'http://localhost:9411');
+  loader: OTelZipkinLoader new;
+  transformers: { OTelTagTransformer new
+      predicate: [ :tag | "match a tag" ];
+      block: [ :value | "compute its new value" ] }.
 importer import. "returns a filled FamixOTelModel"
 ```
 
