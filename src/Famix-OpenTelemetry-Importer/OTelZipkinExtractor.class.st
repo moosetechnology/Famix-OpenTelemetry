@@ -35,6 +35,7 @@ OTelZipkinExtractor >> extract [
 		       self parameters associationsDo: [ :param | 
 			       stream << $& << param key << $= << param value ] ].
 	data := ZnClient new get: url.
+	self output: data.
 	^ (NeoJSONReader on: data readStream) parseList
 ]
 
