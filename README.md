@@ -14,8 +14,12 @@ Metacello new
 ## Importing
 
 OpenTelemetry traces can be stored in a variety of telemetry backends, such as Zipkin or any OTelCollector.
-To support this modularity, the importer works as a pipeline configured with an extractor, which fetches the raw trace data, and a loader, which parses the data and builds the model.
-In addition, it can be configured with transformers to process or apply modifications to the trace model.
+To support this modularity, the importer works like an ELT pipeline.  
+**Extractors** retrieve the raw trace data from a source outside the image and deserialize it.
+Some extractors can output the retrieved data to a file, by configuring them with `outputFilename:`.
+The data can then be extracted from the file, for example with `OTelJSONFileExtractor`.  
+**Loaders** understand a specific raw data structure and use it to build the model.  
+**Transformers** are optional, they can process or apply modifications to the trace model.
 
 ```st
 importer := OpenTelemetryImporter new.
