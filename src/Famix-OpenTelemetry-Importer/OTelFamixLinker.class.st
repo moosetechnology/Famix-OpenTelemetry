@@ -33,7 +33,7 @@ OTelFamixLinker >> linkOrigin: span [
 	| name |
 	name := span tags at: methodKey.
 	span origin:
-		((importer findTypeNamed: (span tags at: classKey)) methods detect: [ 
+		((importer loadTypeNamed: (span tags at: classKey)) methods detect: [ 
 			 :method | method name = name ])
 ]
 
