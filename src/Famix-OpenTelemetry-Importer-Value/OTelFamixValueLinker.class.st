@@ -28,7 +28,7 @@ OTelFamixValueLinker >> linkArguments: span [
 	index := 0.
 	importer rawValues: (span tags at: argsKey) do: [ :rawArg | 
 		parameter := span origin parameters at: (index := index + 1).
-		importer
+		importer reset
 			withTypeInference: (parameter ifNotNil: [ parameter declaredType ])
 			do: [ 
 				(importer importValue: rawArg)
@@ -43,7 +43,7 @@ OTelFamixValueLinker >> linkResult: span [
 
 	(importer isProcedure: span origin) ifTrue: [ ^ self ].
 	importer withTypeInference: span origin declaredType do: [ 
-		(importer parseValue: (span tags at: resultKey))
+		(importer reset parseValue: (span tags at: resultKey))
 			typedEntity: span origin;
 			resultInSpan: span ]
 ]
