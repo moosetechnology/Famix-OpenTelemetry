@@ -16,9 +16,3 @@ FamixOTelValueModel class >> annotation [
 	<package: #'Famix-OpenTelemetry-Value-Entities'>
 	<generated>
 ]
-
-{ #category : #testing }
-FamixOTelValueModel class >> canBeImportedFromFile [
-	<generated>
-	^true
-]
