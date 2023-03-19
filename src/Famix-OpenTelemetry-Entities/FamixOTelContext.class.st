@@ -19,7 +19,7 @@ FamixOTelContext class >> annotation [
 	<FMClass: #Context super: #FamixOTelEntity>
 	<package: #'Famix-OpenTelemetry-Entities'>
 	<generated>
-	^self
+	^ self
 ]
 
 { #category : #adding }

@@ -10,7 +10,15 @@ FamixOTelEntity class >> annotation [
 	<FMClass: #Entity super: #MooseEntity>
 	<package: #'Famix-OpenTelemetry-Entities'>
 	<generated>
-	^self
+	<abstract>
+	^ self
+]
+
+{ #category : #testing }
+FamixOTelEntity class >> isAbstract [
+
+	<generated>
+	^ self == FamixOTelEntity
 ]
 
 { #category : #meta }
