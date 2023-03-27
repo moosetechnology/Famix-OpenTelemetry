@@ -15,11 +15,11 @@ Metacello new
 
 OpenTelemetry traces can be stored in a variety of telemetry backends, such as Zipkin or any OTelCollector.
 To support this modularity, the importer works like an ELT pipeline.  
-**Extractors** retrieve the raw trace data from a source outside the image and deserialize it.
+- **Extractors** retrieve the raw trace data from a source outside the image and deserialize it.
 Some extractors can output the retrieved data to a file, by configuring them with `outputFilename:`.
 The data can then be extracted from the file, for example with `OTelJSONFileExtractor`.  
-**Loaders** understand a specific raw data structure and use it to build the model.  
-**Transformers** are optional, they can process or apply modifications to the trace model.
+- **Loaders** understand a specific raw data structure and use it to build the model.  
+- **Transformers** are optional, they can process or apply modifications to the trace model.
 
 ```st
 importer := OpenTelemetryImporter new.
@@ -31,6 +31,21 @@ importer
       block: [ :value | "compute its new value" ] }.
 importer import. "returns a filled FamixOTelModel"
 ```
+
+### Supported Telemetry Aggregators
+
+| Aggregator | Baseline |
+|---|---|
+| Zipkin | default |
+| Elasticsearch | `elasticsearch` |
+
+### Available Transformers
+
+| Transformer | Description | Baseline |
+|---|---|---|
+| TagTransformer | modifies `Span` tags that match a predicate with a pluggable block | default |
+| FamixLinker | links `Span`s to their origin in a Famix model | default |
+| FamixValueLinker | links origin and generates a FamixValue model from serialized arguments and result | `value` |
 
 ## Modeling Values
 
@@ -44,9 +59,9 @@ Metacello new
   load: 'value'
 ```
 
-A transformer, such as an instance of `OTelFamixValueLinker`, can be added to the import pipeline to create a FamixValue model.
-The values can also be linked to the model of the application that produced them by configuring the given FamixValue importer.
-In order to enable navigation between the traces and the values when inspecting entities, they must coexist in the same `FamixOTelValueModel`.
+A transformer, such as an instance of `OTelFamixValueLinker`, can be added to the import pipeline to create a FamixValue model.  
+The values can also be linked to the model of the application that produced them by configuring the given FamixValue importer.  
+In order to enable navigation between the traces and the values when inspecting entities, they must coexist in the same `FamixOTelValueModel`.  
 
 ```st
 traceModel := FamixOTelValueModel new.
