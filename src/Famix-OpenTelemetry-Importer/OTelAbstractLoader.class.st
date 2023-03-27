@@ -1,4 +1,4 @@
-dd"
+"
 I am part of the `OpenTelemetryImporter` pipeline.
 My subclasses instantiate a `FamixOTelModel` from raw trace data.
 "
