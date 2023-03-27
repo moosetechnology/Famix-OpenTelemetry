@@ -1,4 +1,4 @@
-"
+dd"
 I am part of the `OpenTelemetryImporter` pipeline.
 My subclasses instantiate a `FamixOTelModel` from raw trace data.
 "
@@ -35,17 +35,17 @@ OTelAbstractLoader >> model: aModel [
 { #category : #'entity creation' }
 OTelAbstractLoader >> newContext [
 
-	^ self model silentlyAdd: FamixOTelContext new
+	^ self model add: FamixOTelContext new
 ]
 
 { #category : #'entity creation' }
 OTelAbstractLoader >> newSpan [
 
-	^ self model silentlyAdd: FamixOTelSpan new
+	^ self model add: FamixOTelSpan new
 ]
 
 { #category : #'entity creation' }
 OTelAbstractLoader >> newTrace [
 
-	^ self model silentlyAdd: FamixOTelTrace new
+	^ self model add: FamixOTelTrace new
 ]
