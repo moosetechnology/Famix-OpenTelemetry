@@ -24,7 +24,7 @@ FamixOTelSpan class >> annotation [
 	<FMClass: #Span super: #FamixOTelEntity>
 	<package: #'Famix-OpenTelemetry-Entities'>
 	<generated>
-	^self
+	^ self
 ]
 
 { #category : #adding }

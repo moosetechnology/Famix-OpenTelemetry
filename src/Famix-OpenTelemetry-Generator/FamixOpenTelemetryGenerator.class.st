@@ -1,5 +1,5 @@
 Class {
-	#name : #OpenTelemetryMetamodelGenerator,
+	#name : #FamixOpenTelemetryGenerator,
 	#superclass : #FamixMetamodelGenerator,
 	#instVars : [
 		'trace',
@@ -10,27 +10,27 @@ Class {
 }
 
 { #category : #accessing }
-OpenTelemetryMetamodelGenerator class >> packageName [
+FamixOpenTelemetryGenerator class >> packageName [
 
 	<ignoreForCoverage>
 	^ #'Famix-OpenTelemetry-Entities'
 ]
 
 { #category : #accessing }
-OpenTelemetryMetamodelGenerator class >> prefix [
+FamixOpenTelemetryGenerator class >> prefix [
 
 	<ignoreForCoverage>
 	^ #FamixOTel
 ]
 
 { #category : #accessing }
-OpenTelemetryMetamodelGenerator class >> submetamodels [
+FamixOpenTelemetryGenerator class >> submetamodels [
 
 	^ { FamixGenerator }
 ]
 
 { #category : #definition }
-OpenTelemetryMetamodelGenerator >> defineClasses [
+FamixOpenTelemetryGenerator >> defineClasses [
 
 	trace := builder
 		         newClassNamed: #Trace
@@ -39,7 +39,7 @@ OpenTelemetryMetamodelGenerator >> defineClasses [
 	context := builder
 		           newClassNamed: #Context
 		           comment:
-		           'I hold informations about the context of a set of `Span`s. Several contexts can exist per trace in a distributed system.'.
+		           'I hold informations about the context of a set of `Span`s. Several contexts can exist per `Trace` in a distributed system.'.
 	span := builder
 		        newClassNamed: #Span
 		        comment:
@@ -47,7 +47,7 @@ OpenTelemetryMetamodelGenerator >> defineClasses [
 ]
 
 { #category : #definition }
-OpenTelemetryMetamodelGenerator >> defineProperties [
+FamixOpenTelemetryGenerator >> defineProperties [
 
 	trace property: #id type: #String.
 	context property: #name type: #String.
@@ -60,7 +60,7 @@ OpenTelemetryMetamodelGenerator >> defineProperties [
 ]
 
 { #category : #definition }
-OpenTelemetryMetamodelGenerator >> defineRelations [
+FamixOpenTelemetryGenerator >> defineRelations [
 
 	(trace property: #spans) -* (span property: #trace).
 	(trace property: #contexts) *-* (context property: #traces).

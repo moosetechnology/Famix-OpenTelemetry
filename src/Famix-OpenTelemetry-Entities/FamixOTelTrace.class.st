@@ -18,7 +18,7 @@ FamixOTelTrace class >> annotation [
 	<FMClass: #Trace super: #FamixOTelEntity>
 	<package: #'Famix-OpenTelemetry-Entities'>
 	<generated>
-	^self
+	^ self
 ]
 
 { #category : #adding }
