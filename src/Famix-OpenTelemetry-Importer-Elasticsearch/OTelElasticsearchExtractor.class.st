@@ -26,6 +26,18 @@ OTelElasticsearchExtractor >> apiKey: anAPIKey [
 ]
 
 { #category : #accessing }
+OTelElasticsearchExtractor >> beHttp [
+
+	api beHttp
+]
+
+{ #category : #accessing }
+OTelElasticsearchExtractor >> beHttps [
+
+	api beHttps
+]
+
+{ #category : #accessing }
 OTelElasticsearchExtractor >> endpoint: anEndpoint [
 	api endpoint: anEndpoint
 ]
