@@ -9,13 +9,13 @@ BaselineOfFamixOpenTelemetry >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [ 
-		self defineDependencies: spec.
-		self definePackages: spec.
-		self defineGroups: spec ]
+		self dependencies: spec.
+		self packages: spec.
+		self groups: spec ]
 ]
 
 { #category : #baselines }
-BaselineOfFamixOpenTelemetry >> defineDependencies: spec [
+BaselineOfFamixOpenTelemetry >> dependencies: spec [
 
 	spec
 		baseline: 'ElasticsearchAPI' with: [ 
@@ -27,7 +27,7 @@ BaselineOfFamixOpenTelemetry >> defineDependencies: spec [
 ]
 
 { #category : #baselines }
-BaselineOfFamixOpenTelemetry >> defineGroups: spec [
+BaselineOfFamixOpenTelemetry >> groups: spec [
 
 	spec
 		group: 'default' with: #( 'model' 'importer' );
@@ -47,7 +47,7 @@ BaselineOfFamixOpenTelemetry >> defineGroups: spec [
 ]
 
 { #category : #baselines }
-BaselineOfFamixOpenTelemetry >> definePackages: spec [
+BaselineOfFamixOpenTelemetry >> packages: spec [
 
 	spec
 		package: 'Famix-OpenTelemetry-Entities';
