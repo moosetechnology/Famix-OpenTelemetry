@@ -37,7 +37,7 @@ OTelZipkinLoader >> loadContext: rawSpan [
 	ctxData := rawSpan at: 'localEndpoint'.
 	serviceName := ctxData at: 'serviceName'.
 	^ entityDict at: serviceName ifAbsentPut: [ 
-		  self newContext
+		  self model newContext
 			  name: serviceName;
 			  data: ctxData ]
 ]
@@ -46,7 +46,7 @@ OTelZipkinLoader >> loadContext: rawSpan [
 OTelZipkinLoader >> loadSpan: rawSpan [
 
 	| span |
-	span := self newSpan
+	span := self model newSpan
 		        id: (rawSpan at: 'id');
 		        name: (rawSpan at: 'name');
 		        tags: (rawSpan at: 'tags');
@@ -61,8 +61,6 @@ OTelZipkinLoader >> loadSpan: rawSpan [
 { #category : #'private - loading' }
 OTelZipkinLoader >> loadTrace: rawSpan [
 
-	^ rawSpan
-		  at: 'traceId'
-		  ifPresent: [ :tid | 
-		  entityDict at: tid ifAbsentPut: [ self newTrace id: tid ] ]
+	^ rawSpan at: 'traceId' ifPresent: [ :tid | 
+		  entityDict at: tid ifAbsentPut: [ self model newTrace id: tid ] ]
 ]

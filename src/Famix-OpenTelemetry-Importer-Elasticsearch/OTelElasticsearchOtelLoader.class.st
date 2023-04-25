@@ -20,15 +20,14 @@ OTelElasticsearchOtelLoader >> buildParent: rawSpans [
 				             :span | span id = (self idOfSpan: rawSpan) ].
 			(self model allWithType: FamixOTelSpan)
 				detect: [ :span | span id = parent ]
-				ifOne: [ :parentSpan | 
-					parentSpan addChildren: childSpan ] ] ]
+				ifOne: [ :parentSpan | parentSpan addChildren: childSpan ] ] ]
 ]
 
 { #category : #loading }
 OTelElasticsearchOtelLoader >> buildSpan: aSpan [
 
 	| span |
-	span := self newSpan.
+	span := self model newSpan.
 	span id: (self idOfSpan: aSpan).
 	span name: (self nameOfSpan: aSpan).
 	span
@@ -71,11 +70,13 @@ OTelElasticsearchOtelLoader >> nameOfSpan: aSpan [
 
 { #category : #loading }
 OTelElasticsearchOtelLoader >> retrieveContext: aTrace [
+
 	^ self model entityStorage
 		  detect: [ :c | 
 			  (c isKindOf: FamixOTelContext) and: [ 
 				  c name = (aTrace at: #'Resource.service.name') ] ]
-		  ifNone: [ self newContext name: (aTrace at: #'Resource.service.name') ]
+		  ifNone: [ 
+		  self model newContext name: (aTrace at: #'Resource.service.name') ]
 ]
 
 { #category : #loading }
@@ -83,7 +84,6 @@ OTelElasticsearchOtelLoader >> retrieveTrace: aTrace [
 
 	^ self model entityStorage
 		  detect: [ :t | 
-			  (t isKindOf: FamixOTelTrace) and: [ 
-				  t id = (aTrace at: #TraceId) ] ]
-		  ifNone: [ self newTrace id: (aTrace at: #TraceId) ]
+			  (t isKindOf: FamixOTelTrace) and: [ t id = (aTrace at: #TraceId) ] ]
+		  ifNone: [ self model newTrace id: (aTrace at: #TraceId) ]
 ]
