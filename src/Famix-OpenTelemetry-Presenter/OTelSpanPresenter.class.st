@@ -18,8 +18,7 @@ OTelSpanPresenter >> initializePresenters [
 		beResizable;
 		addColumn: (SpStringTableColumn title: 'Key' evaluated: #key);
 		addColumn: (SpStringTableColumn title: 'Value' evaluated: #value);
-		items: self model tags associations;
-		yourself.
+		items: self model tags associations.
 	self layout: (SpBoxLayout newTopToBottom
 			 add: table expand: true fill: true;
 			 yourself)
