@@ -29,12 +29,10 @@ OTelFamixValueLinker >> linkArguments: span [
 	index := 0.
 	importer rawValues: (span tags at: argsKey) do: [ :rawArg | 
 		parameter := parameters at: (index := index + 1).
-		importer
-			withTypeInference: (parameter ifNotNil: [ parameter declaredType ])
-			do: [ 
-				(importer importValue: rawArg)
-					typedEntity: parameter;
-					argumentInSpan: span ] ]
+		importer withTypeInference: parameter declaredType do: [ 
+			(importer importValue: rawArg)
+				typedEntity: parameter;
+				argumentInSpan: span ] ]
 ]
 
 { #category : #links }
