@@ -47,6 +47,34 @@ importer import. "returns a filled FamixOTelModel"
 | FamixLinker | links `Span`s to their origin in a Famix model | default |
 | FamixValueLinker | links origin and generates a FamixValue model from serialized arguments and result | `value` |
 
+### Examples
+
+#### Example with ElasticSearch
+
+```st
+Metacello new
+  githubUser: 'moosetechnology' project: 'Famix-OpenTelemetry' commitish: 'main' path: 'src';
+  baseline: 'FamixOpenTelemetry';
+  load: 'elasticsearch'.
+
+elasticExtractor := OTelElasticsearchExtractor new.
+elasticExtractor beHttp.
+elasticExtractor endpoint: 'endpointToElastic'.
+elasticExtractor port: 80.
+elasticExtractor index: '<your index name>'.
+elasticExtractor apiKey: '<your api key>'.
+elasticExtractor size: 30.
+
+
+importer := OpenTelemetryImporter new.
+importer
+  extractor: elasticExtractor;
+  loader: OTelElasticsearchOtelLoader new.
+model := importer import. "returns a filled FamixOTelModel"
+
+model allWithType: FamixOTelTrace.
+```
+
 ## Modeling Values
 
 It is possible to model serialized runtime values stored in traces using [Famix-Value](https://github.com/moosetechnology/Famix-Value).
