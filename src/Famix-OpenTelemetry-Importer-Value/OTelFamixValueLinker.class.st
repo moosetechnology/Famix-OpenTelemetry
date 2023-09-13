@@ -23,12 +23,12 @@ OTelFamixValueLinker >> linkArguments: span [
 
 	"Link the serialized arguments to the Famix model."
 
-	| index parameters parameter |
+	| parameters parameter |
 	span origin parameters isEmpty ifTrue: [ ^ self ].
 	parameters := span origin sortedParameters.
-	index := 0.
-	importer rawValues: (span tags at: argsKey) do: [ :rawArg | 
-		parameter := parameters at: (index := index + 1).
+	(importer parseList: (span tags at: argsKey)) withIndexDo: [ 
+		:rawArg :index | 
+		parameter := parameters at: index.
 		importer withTypeInference: parameter declaredType do: [ 
 			(importer importValue: rawArg)
 				typedEntity: parameter;
