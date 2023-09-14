@@ -31,6 +31,7 @@ BaselineOfFamixOpenTelemetry >> groups: spec [
 
 	spec
 		group: 'default' with: #( 'model' 'importer' );
+		group: 'all' with: #( 'default' 'elasticsearch' 'value' );
 		group: 'model'
 		with:
 			#( 'Famix-OpenTelemetry-Entities' 'Famix-OpenTelemetry-Entities-Extensions'
