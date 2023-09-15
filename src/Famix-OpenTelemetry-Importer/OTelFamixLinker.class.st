@@ -1,5 +1,5 @@
 "
-I am a post-transformer that links `Span`s to their origin in a Famix model.
+I am a transformer that links `Span`s to their origin in a Famix model.
 The origin information is recovered from the tags using the configured keys.
 "
 Class {

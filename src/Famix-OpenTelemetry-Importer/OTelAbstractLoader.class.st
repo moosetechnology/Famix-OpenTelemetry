@@ -6,8 +6,7 @@ Class {
 	#name : #OTelAbstractLoader,
 	#superclass : #Object,
 	#instVars : [
-		'model',
-		'typeEntity'
+		'model'
 	],
 	#category : #'Famix-OpenTelemetry-Importer'
 }

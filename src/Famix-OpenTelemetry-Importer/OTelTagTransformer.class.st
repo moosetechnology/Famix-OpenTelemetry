@@ -1,5 +1,5 @@
 "
-I am a post-transformer that modifies `Span` tags that match a predicate with a pluggable block.
+I am a transformer that modifies `Span` tags that match a predicate with a pluggable block.
 "
 Class {
 	#name : #OTelTagTransformer,
@@ -18,9 +18,9 @@ OTelTagTransformer >> block [
 ]
 
 { #category : #accessing }
-OTelTagTransformer >> block: anObject [
+OTelTagTransformer >> block: aBlock [
 
-	block := anObject
+	block := aBlock
 ]
 
 { #category : #accessing }
@@ -30,9 +30,9 @@ OTelTagTransformer >> predicate [
 ]
 
 { #category : #accessing }
-OTelTagTransformer >> predicate: anObject [
+OTelTagTransformer >> predicate: aBlock [
 
-	predicate := anObject
+	predicate := aBlock
 ]
 
 { #category : #transforming }

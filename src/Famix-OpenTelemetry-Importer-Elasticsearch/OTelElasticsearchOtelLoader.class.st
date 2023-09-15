@@ -4,9 +4,6 @@ This loader is dedicated to data collected using a OtelCollector and sent to Ela
 Class {
 	#name : #OTelElasticsearchOtelLoader,
 	#superclass : #OTelAbstractLoader,
-	#instVars : [
-		'api'
-	],
 	#category : #'Famix-OpenTelemetry-Importer-Elasticsearch'
 }
 
@@ -31,12 +28,9 @@ OTelElasticsearchOtelLoader >> buildSpan: aSpan [
 	span id: (self idOfSpan: aSpan).
 	span name: (self nameOfSpan: aSpan).
 	span
-		timestamp: (DateAndTime fromString: (aSpan at: #'@timestamp'));
-		tags: (aSpan associations
-				 select: [ :assoc | assoc key beginsWith: #Attributes ]
-				 thenCollect: [ :assoc | 
-					 (assoc key withoutPrefix: #'Attributes.') -> assoc value ])
-				asDictionary.
+		timestamp: (DateAndTime fromString: (aSpan at: '@timestamp'));
+		duration: (aSpan at: 'Duration');
+		tags: (aSpan at: 'Attributes').
 	^ span
 ]
 
@@ -50,7 +44,6 @@ OTelElasticsearchOtelLoader >> load: rawTraces [
 
 	"Instantiate trace model from raw data."
 
-	self model.
 	rawTraces do: [ :rawTrace | 
 		| trace span context |
 		context := self retrieveContext: rawTrace.
@@ -71,12 +64,12 @@ OTelElasticsearchOtelLoader >> nameOfSpan: aSpan [
 { #category : #loading }
 OTelElasticsearchOtelLoader >> retrieveContext: aTrace [
 
+	| serviceName |
+	serviceName := (aTrace at: 'Resource' at: 'service') at: 'name'.
 	^ self model entityStorage
 		  detect: [ :c | 
-			  (c isKindOf: FamixOTelContext) and: [ 
-				  c name = (aTrace at: #'Resource.service.name') ] ]
-		  ifNone: [ 
-		  self model newContext name: (aTrace at: #'Resource.service.name') ]
+		  (c isKindOf: FamixOTelContext) and: [ c name = serviceName ] ]
+		  ifNone: [ self model newContext name: serviceName ]
 ]
 
 { #category : #loading }

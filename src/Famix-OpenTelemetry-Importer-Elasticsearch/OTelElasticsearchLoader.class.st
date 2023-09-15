@@ -4,9 +4,6 @@ This loader is dedicated to traces that have been collected using an APM Server
 Class {
 	#name : #OTelElasticsearchLoader,
 	#superclass : #OTelAbstractLoader,
-	#instVars : [
-		'api'
-	],
 	#category : #'Famix-OpenTelemetry-Importer-Elasticsearch'
 }
 
