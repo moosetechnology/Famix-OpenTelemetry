@@ -103,7 +103,8 @@ importer transformers: { OTelFamixValueLinker new
     resultKey: 'result';
     "configure a FamixValue importer, this one understands JSON from the Jackson Java library"
     importer: (FamixValueJavaJacksonImporter new
-         linkedModel: javaModel;
-         model: traceModel) }.
+         model: traceModel;
+         "configure a type finder, this one is for searching a FamixJava model"
+         typeFinder: (FamixJavaTypeFinder new model: javaModel)) }.
 importer import. "fills traceModel with FamixOTel and FamixValue entities"
 ```
