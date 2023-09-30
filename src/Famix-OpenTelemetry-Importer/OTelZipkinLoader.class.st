@@ -22,8 +22,8 @@ OTelZipkinLoader >> load: rawTraces [
 			span := self loadSpan: rawSpan.
 			trace := self loadTrace: rawSpan.
 			context := self loadContext: rawSpan.
-			span trace: trace.
 			span context: context.
+			span trace: trace.
 			trace contexts
 				detect: [ :ctx | ctx name = context name ]
 				ifNone: [ trace addContext: context ] ] ].

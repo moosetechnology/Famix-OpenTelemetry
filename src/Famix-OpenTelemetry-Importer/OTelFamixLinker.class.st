@@ -28,13 +28,11 @@ OTelFamixLinker >> importer: aFamixValueImporter [
 { #category : #links }
 OTelFamixLinker >> linkOrigin: span [
 
-	"Link the span origin to the Famix model."
+	"Link the span origin to the method in the Famix model."
 
-	| name |
-	name := span tags at: methodKey.
-	span origin:
-		((importer loadTypeNamed: (span tags at: classKey)) methods detect: [ 
-			 :method | method name = name ])
+	span origin: (importer entityFinder
+			 findMethodWithSignature: (span tags at: methodKey)
+			 in: (importer loadTypeNamed: (span tags at: classKey)))
 ]
 
 { #category : #accessing }
