@@ -9,9 +9,9 @@ FamixOTelTrace >> mooseNameOn: aStream [
 { #category : #'*Famix-OpenTelemetry-Entities-Extensions' }
 FamixOTelTrace >> printOn: aStream [
 
-	aStream << 'Trace: '.
+	aStream << 'Trace '.
 	self id printOn: aStream.
-	aStream << ' '.
+	aStream << ': '.
 	self rootsSpan anyOne printOn: aStream
 ]
 
