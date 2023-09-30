@@ -7,7 +7,9 @@ Class {
 	#superclass : #OTelFamixLinker,
 	#instVars : [
 		'argsKey',
-		'resultKey'
+		'resultKey',
+		'shouldLinkResultFirst',
+		'shouldResetImporter'
 	],
 	#category : #'Famix-OpenTelemetry-Importer-Value'
 }
@@ -54,13 +56,47 @@ OTelFamixValueLinker >> resultKey: aString [
 ]
 
 { #category : #transforming }
+OTelFamixValueLinker >> shouldLinkResultFirst [
+
+	^ shouldLinkResultFirst ifNil: [ shouldLinkResultFirst := true ]
+]
+
+{ #category : #transforming }
+OTelFamixValueLinker >> shouldLinkResultFirst: aBoolean [
+
+	"Whether to link the result before the arguments."
+
+	shouldLinkResultFirst := aBoolean
+]
+
+{ #category : #transforming }
+OTelFamixValueLinker >> shouldResetImporter [
+
+	^ shouldResetImporter ifNil: [ shouldResetImporter := true ]
+]
+
+{ #category : #transforming }
+OTelFamixValueLinker >> shouldResetImporter: aBoolean [
+
+	"Whether the importer should be reset between linking the result and arguments."
+
+	shouldResetImporter := aBoolean
+]
+
+{ #category : #transforming }
 OTelFamixValueLinker >> value: model [
 
-	"Link trace model with a Java model using class, method, args and result tags."
+	"Link trace model with a Famix model using class, method, args and result tags."
 
 	(model allWithType: FamixOTelSpan) do: [ :span | 
+		importer reset.
 		self linkOrigin: span.
-		self linkArguments: span.
-		self linkResult: span ].
+		self shouldLinkResultFirst
+			ifTrue: [ self linkResult: span ]
+			ifFalse: [ self linkArguments: span ].
+		self shouldResetImporter ifTrue: [ importer reset ].
+		self shouldLinkResultFirst
+			ifTrue: [ self linkArguments: span ]
+			ifFalse: [ self linkResult: span ] ].
 	^ model
 ]
