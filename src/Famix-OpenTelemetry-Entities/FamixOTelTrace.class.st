@@ -63,6 +63,13 @@ FamixOTelTrace >> id: anObject [
 	id := anObject
 ]
 
+{ #category : #testing }
+FamixOTelTrace >> isTrace [
+
+	<generated>
+	^ true
+]
+
 { #category : #accessing }
 FamixOTelTrace >> spans [
 	"Relation named: #spans type: #FamixOTelSpan opposite: #trace"

@@ -48,6 +48,13 @@ FamixOTelContext >> data: anObject [
 	data := anObject
 ]
 
+{ #category : #testing }
+FamixOTelContext >> isContext [
+
+	<generated>
+	^ true
+]
+
 { #category : #accessing }
 FamixOTelContext >> name [
 

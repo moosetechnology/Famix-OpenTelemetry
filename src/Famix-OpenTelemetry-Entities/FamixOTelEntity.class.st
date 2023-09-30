@@ -27,3 +27,24 @@ FamixOTelEntity class >> metamodel [
 	<generated>
 	^ FamixOTelModel metamodel
 ]
+
+{ #category : #testing }
+FamixOTelEntity >> isContext [
+
+	<generated>
+	^ false
+]
+
+{ #category : #testing }
+FamixOTelEntity >> isSpan [
+
+	<generated>
+	^ false
+]
+
+{ #category : #testing }
+FamixOTelEntity >> isTrace [
+
+	<generated>
+	^ false
+]

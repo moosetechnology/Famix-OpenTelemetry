@@ -92,6 +92,13 @@ FamixOTelSpan >> id: anObject [
 	id := anObject
 ]
 
+{ #category : #testing }
+FamixOTelSpan >> isSpan [
+
+	<generated>
+	^ true
+]
+
 { #category : #accessing }
 FamixOTelSpan >> name [
 

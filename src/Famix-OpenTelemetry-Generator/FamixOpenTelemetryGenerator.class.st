@@ -32,18 +32,21 @@ FamixOpenTelemetryGenerator class >> submetamodels [
 { #category : #definition }
 FamixOpenTelemetryGenerator >> defineClasses [
 
-	trace := builder
-		         newClassNamed: #Trace
+	trace := (builder
+		          newClassNamed: #Trace
+		          comment:
+		          'I give the big picture of what happens when a request is made by user or an application. Traces are composed of `Span`s.')
+		         withTesting.
+	context := (builder
+		            newClassNamed: #Context
+		            comment:
+		            'I hold informations about the context of a set of `Span`s. Several contexts can exist per `Trace` in a distributed system.')
+		           withTesting.
+	span := (builder
+		         newClassNamed: #Span
 		         comment:
-		         'I give the big picture of what happens when a request is made by user or an application. Traces are composed of `Span`s.'.
-	context := builder
-		           newClassNamed: #Context
-		           comment:
-		           'I hold informations about the context of a set of `Span`s. Several contexts can exist per `Trace` in a distributed system.'.
-	span := builder
-		        newClassNamed: #Span
-		        comment:
-		        'I represent a unit of work or operation. Spans are the building blocks of `Trace`s.'
+		         'I represent a unit of work or operation. Spans are the building blocks of `Trace`s.')
+		        withTesting
 ]
 
 { #category : #definition }
