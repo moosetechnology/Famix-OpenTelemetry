@@ -67,8 +67,7 @@ OTelElasticsearchOtelLoader >> retrieveContext: aTrace [
 	| serviceName |
 	serviceName := (aTrace at: 'Resource' at: 'service') at: 'name'.
 	^ self model entityStorage
-		  detect: [ :c | 
-		  (c isKindOf: FamixOTelContext) and: [ c name = serviceName ] ]
+		  detect: [ :c | c isContext and: [ c name = serviceName ] ]
 		  ifNone: [ self model newContext name: serviceName ]
 ]
 
@@ -76,7 +75,6 @@ OTelElasticsearchOtelLoader >> retrieveContext: aTrace [
 OTelElasticsearchOtelLoader >> retrieveTrace: aTrace [
 
 	^ self model entityStorage
-		  detect: [ :t | 
-			  (t isKindOf: FamixOTelTrace) and: [ t id = (aTrace at: #TraceId) ] ]
+		  detect: [ :t | t isTrace and: [ t id = (aTrace at: #TraceId) ] ]
 		  ifNone: [ self model newTrace id: (aTrace at: #TraceId) ]
 ]
