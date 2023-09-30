@@ -45,7 +45,10 @@ OTelElasticsearchExtractor >> endpoint: anEndpoint [
 { #category : #extraction }
 OTelElasticsearchExtractor >> extract [
 
-	^ api performRequest hits hits collect: #_source
+	| data |
+	data := api performRequest hits hits collect: #_source.
+	self output: [ NeoJSONWriter toString: data ].
+	^ data
 ]
 
 { #category : #accessing }
@@ -54,7 +57,7 @@ OTelElasticsearchExtractor >> index: anIndex [
 	api index: anIndex
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 OTelElasticsearchExtractor >> initialize [
 
 	super initialize.

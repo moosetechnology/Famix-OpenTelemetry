@@ -18,12 +18,11 @@ OTelAbstractExtractor >> extract [
 ]
 
 { #category : #fileout }
-OTelAbstractExtractor >> output: data [
+OTelAbstractExtractor >> output: blockOrSerializedValue [
 
 	outputFilename ifNotNil: [ 
 		(outputFilename asFileReference ensureDelete ensureCreateFile
-			 writeStream nextPutAll: data) close ].
-	^ data
+			 writeStream nextPutAll: blockOrSerializedValue value) close ]
 ]
 
 { #category : #accessing }

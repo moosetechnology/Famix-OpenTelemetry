@@ -45,7 +45,6 @@ OTelElasticsearchLoader >> load: rawTraces [
 
 	"Instantiate trace model from raw data."
 
-	self model.
 	rawTraces do: [ :rawTrace | 
 		| trace span context |
 		context := self retrieveContext: rawTrace.

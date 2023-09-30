@@ -11,7 +11,7 @@ Class {
 OTelElasticsearchOtelLoader >> buildParent: rawSpans [
 
 	rawSpans do: [ :rawSpan | 
-		(rawSpan at: #ParentSpanId) ifNotNil: [ :parent | 
+		rawSpan at: #ParentSpanId ifPresent: [ :parent | 
 			| childSpan |
 			childSpan := (self model allWithType: FamixOTelSpan) detect: [ 
 				             :span | span id = (self idOfSpan: rawSpan) ].
