@@ -58,13 +58,12 @@ Metacello new
   load: 'elasticsearch'.
 
 elasticExtractor := OTelElasticsearchExtractor new.
-elasticExtractor beHttp.
-elasticExtractor endpoint: 'endpointToElastic'.
-elasticExtractor port: 80.
-elasticExtractor index: '<your index name>'.
-elasticExtractor apiKey: '<your api key>'.
-elasticExtractor size: 30.
-
+elasticExtractor
+  beHttps;
+  endpoint: 'endpointToElastic';
+  index: '<your index name>';
+  apiKey: '<your api key>';
+  size: 30.
 
 importer := OpenTelemetryImporter new.
 importer
@@ -103,8 +102,8 @@ importer transformers: { OTelFamixValueLinker new
     resultKey: 'result';
     "configure a FamixValue importer, this one understands JSON from the Jackson Java library"
     importer: (FamixValueJavaJacksonImporter new
-         model: traceModel;
-         "configure a type finder, this one is for searching a FamixJava model"
-         typeFinder: (FamixJavaTypeFinder new model: javaModel)) }.
+        model: traceModel;
+        "configure an entity finder, this one is for searching a FamixJava model"
+        entityFinder: (FamixJavaEntityFinder new model: javaModel)) }.
 importer import. "fills traceModel with FamixOTel and FamixValue entities"
 ```
