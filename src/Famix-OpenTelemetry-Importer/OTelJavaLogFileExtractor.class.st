@@ -100,7 +100,7 @@ OTelJavaLogFileExtractor >> parseLog: line [
 	dic at: #tags ifAbsentPut: Dictionary new.
 
 
-	dic at: #traceId put: (self traceIdPP2 parse: line).
+	dic at: #traceId put: (traceIdPP2 parse: line).
 
 	dic at: #id put: (idPP2 parse: line).
 
