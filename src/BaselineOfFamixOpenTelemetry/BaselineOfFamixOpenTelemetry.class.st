@@ -23,7 +23,9 @@ BaselineOfFamixOpenTelemetry >> dependencies: spec [
 					'github://Evref-BL/Elasticsearch-Pharo-API:main/src' ];
 		baseline: 'FamixValue'
 		with: [ 
-			spec repository: 'github://moosetechnology/Famix-Value:main/src' ]
+			spec repository: 'github://moosetechnology/Famix-Value:main/src' ];
+		baseline: 'PetitParser2Gui'
+		with: [ spec repository: 'github://kursjan/petitparser2:master' ]
 ]
 
 { #category : #baselines }
@@ -57,7 +59,7 @@ BaselineOfFamixOpenTelemetry >> packages: spec [
 		package: 'Famix-OpenTelemetry-Generator';
 		package: 'Famix-OpenTelemetry-Presenter'
 		with: [ spec requires: 'Famix-OpenTelemetry-Entities' ];
-		package: 'Famix-OpenTelemetry-Importer';
+		package: 'Famix-OpenTelemetry-Importer' with: [ spec requires: #('PetitParser2Gui') ];
 		package: 'Famix-OpenTelemetry-Importer-Elasticsearch'
 		with: [ spec requires: 'Famix-OpenTelemetry-Importer' ];
 		package: 'Famix-OpenTelemetry-Value-Generator';

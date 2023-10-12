@@ -1,8 +1,5 @@
-"
-I load a model from Zipkin data.
-"
 Class {
-	#name : #OTelZipkinLoader,
+	#name : #OTelJavaLogFileLoader,
 	#superclass : #OTelAbstractLoader,
 	#instVars : [
 		'entityDict'
@@ -11,14 +8,14 @@ Class {
 }
 
 { #category : #loading }
-OTelZipkinLoader >> load: rawTraces [
+OTelJavaLogFileLoader >> load: rawTraces [
 
-	"Instantiate trace model from Zipkin data."
+	"Instantiate trace model from raw data."
 
 	| span trace context |
 	entityDict := entityDict ifNil: [ Dictionary new: rawTraces size ].
 	rawTraces do: [ :rawTrace | "load parent before children"
-		rawTrace reverseDo: [ :rawSpan | 
+		rawTrace do: [ :rawSpan | 
 			span := self loadSpan: rawSpan.
 			trace := self loadTrace: rawSpan.
 			context := self loadContext: rawSpan.
@@ -31,7 +28,7 @@ OTelZipkinLoader >> load: rawTraces [
 ]
 
 { #category : #'private - loading' }
-OTelZipkinLoader >> loadContext: rawSpan [
+OTelJavaLogFileLoader >> loadContext: rawSpan [
 
 	| ctxData serviceName |
 	ctxData := rawSpan at: 'localEndpoint'.
@@ -43,7 +40,7 @@ OTelZipkinLoader >> loadContext: rawSpan [
 ]
 
 { #category : #'private - loading' }
-OTelZipkinLoader >> loadSpan: rawSpan [
+OTelJavaLogFileLoader >> loadSpan: rawSpan [
 
 	| span |
 	span := self model newSpan
@@ -52,14 +49,14 @@ OTelZipkinLoader >> loadSpan: rawSpan [
 		        tags: (rawSpan at: 'tags');
 		        timestamp: (rawSpan at: 'timestamp');
 		        duration: (rawSpan at: 'duration').
-	rawSpan at: 'parentId' ifPresent: [ :pid | 
-	
-		span parent: (entityDict at: pid) ].
+	rawSpan
+		at: 'parentId'
+		ifPresent: [ :pid |  (pid = '0000000000000000') ifTrue: [	span parent: nil ] ifFalse:[ span parent: (entityDict at: pid)] ].
 	^ entityDict at: span id put: span
 ]
 
 { #category : #'private - loading' }
-OTelZipkinLoader >> loadTrace: rawSpan [
+OTelJavaLogFileLoader >> loadTrace: rawSpan [
 
 	^ rawSpan at: 'traceId' ifPresent: [ :tid | 
 		  entityDict at: tid ifAbsentPut: [ self model newTrace id: tid ] ]
