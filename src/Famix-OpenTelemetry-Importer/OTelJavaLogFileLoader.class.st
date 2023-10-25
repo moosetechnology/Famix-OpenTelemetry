@@ -14,16 +14,22 @@ OTelJavaLogFileLoader >> load: rawTraces [
 
 	| span trace context |
 	entityDict := entityDict ifNil: [ Dictionary new: rawTraces size ].
+
+	trace := self loadTrace: rawTraces anyOne anyOne.
+	context := self loadContext: rawTraces anyOne anyOne.
+
 	rawTraces do: [ :rawTrace | "load parent before children"
 		rawTrace do: [ :rawSpan | 
 			span := self loadSpan: rawSpan.
-			trace := self loadTrace: rawSpan.
-			context := self loadContext: rawSpan.
-			span context: context.
-			span trace: trace.
-			trace contexts
-				detect: [ :ctx | ctx name = context name ]
-				ifNone: [ trace addContext: context ] ] ].
+ ] ].
+
+
+	trace spans: (model allWithType: FamixOTelSpan).
+	context spans: (model allWithType: FamixOTelSpan).
+	trace contexts
+		detect: [ :ctx | ctx name = context name ]
+		ifNone: [ trace addContext: context ].
+
 	^ self model
 ]
 
@@ -31,6 +37,7 @@ OTelJavaLogFileLoader >> load: rawTraces [
 OTelJavaLogFileLoader >> loadContext: rawSpan [
 
 	| ctxData serviceName |
+
 	ctxData := rawSpan at: 'localEndpoint'.
 	serviceName := ctxData at: 'serviceName'.
 	^ entityDict at: serviceName ifAbsentPut: [ 

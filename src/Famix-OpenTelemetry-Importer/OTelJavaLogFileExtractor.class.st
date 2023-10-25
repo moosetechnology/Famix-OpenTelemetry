@@ -10,7 +10,8 @@ Class {
 		'methodPP2',
 		'orderPP2',
 		'any',
-		'sep'
+		'sep',
+		'lastIndex'
 	],
 	#category : #'Famix-OpenTelemetry-Importer'
 }
@@ -19,6 +20,25 @@ Class {
 OTelJavaLogFileExtractor >> any [
 
 	^ any
+]
+
+{ #category : #parsing }
+OTelJavaLogFileExtractor >> debuggingParsingFirstLines: maxLines ofStream: stream [
+
+	"parse the frist lines of a stream. Use it to test the extract on large file"
+
+	| array line res limit |
+	array := OrderedCollection new.
+	line := stream nextLine.
+	limit := 1.
+	[ limit <= maxLines and: [ line isNotNil ] ] whileTrue: [ "array add: (self parseLog: line)."
+		array add: line.
+		line := stream nextLine.
+		limit := limit + 1 ].
+
+	res := OrderedCollection new.
+	res add: array.
+	^ res
 ]
 
 { #category : #extraction }
@@ -53,7 +73,7 @@ OTelJavaLogFileExtractor >> initialize [
 
 	traceIdPP2 := ('traceId=' asPParser , any starLazy flatten , sep) sea
 	              ==> #second ==> #second.
-	
+
 	idPP2 := ('spanId=' asPParser , any starLazy flatten , sep) sea
 	         ==> #second ==> #second.
 	orderPP2 := ('drit.order=' asPParser , any starLazy flatten , sep)
@@ -65,7 +85,9 @@ OTelJavaLogFileExtractor >> initialize [
 	                 , #digit asPParser star flatten) sea ==> #second
 	                ==> #second.
 	namePP2 := ('name=' asPParser , any starLazy flatten , sep) sea
-	           ==> #second ==> #second
+	           ==> #second ==> #second.
+	
+	lastIndex := 0. 
 ]
 
 { #category : #PP2 }
@@ -89,7 +111,7 @@ OTelJavaLogFileExtractor >> orderPP2 [
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parseId: aString [
 
-	^ self parsing: aString FromString: 'spanId=' to: ','
+	^ self parsing: aString FromString: ' ' to: ' '
 ]
 
 { #category : #PP2 }
@@ -101,7 +123,7 @@ OTelJavaLogFileExtractor >> parseIdPP2: aString [
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parseLog: line [
 
-	| dic |
+	| dic subLine |
 	dic := Dictionary new.
 
 	dic at: #duration ifAbsentPut: nil.
@@ -116,15 +138,27 @@ OTelJavaLogFileExtractor >> parseLog: line [
 	dic at: #tags ifAbsentPut: Dictionary new.
 	dic at: #parentId ifAbsentPut: nil.
 
-	dic at: #traceId put: (self parseTraceID: line).
-	dic at: #id put: (self parseId: line).
+	"info in span metadata "
+	dic at: #name put: (self parseName: line).
+
+	subLine := line copyFrom: lastIndex to: line size.
+	dic at: #traceId put: (self parseTraceID: subLine).
+	subLine := subLine copyFrom: lastIndex to: subLine size.
+	dic at: #id put: (self parseId: subLine).
+
+	"info thing in span attribut"
 	dic at: #parentId put: (self parseParentId: line).
 	dic at: #timestamp put: (self parseTimestamp: line).
-	dic at: #name put: (self parseName: line).
 	(dic at: #tags) at: 'drit.order' ifAbsentPut: (self parseOrder: line).
+	(dic at: #tags)
+		at: 'drit.stackcall'
+		ifAbsentPut: (self parseStackcall: line).
 	(dic at: #tags)
 		at: 'drit.method'
 		ifAbsentPut: (self parseMethod: line).
+	(dic at: #tags)
+		at: 'thread.id'
+		ifAbsentPut: (self parseThreadID: line).
 
 
 	^ dic
@@ -145,7 +179,7 @@ OTelJavaLogFileExtractor >> parseMethodPP2: aString [
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parseName: aString [
 
-	^ self parsing: aString FromString: 'name=' to: ','
+	^ self parsing: aString FromString: '''' to: ''' : '.
 ]
 
 { #category : #PP2 }
@@ -168,18 +202,19 @@ OTelJavaLogFileExtractor >> parseOrderPP2: aString [
 
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parseParentId: aString [
-
-	| from subString |
 	
-	from := aString
-		        indexOfSubCollection: 'spanId='
-		        startingAt:
-		        (aString indexOfSubCollection: 'parentSpanContext')
-		        ifAbsent: 'nil'.
-	subString := aString copyFrom: from - 1 to: aString size.
-	from ifNil: [ ^ nil ].
+^ self parsing: aString FromString: 'drit.parentId="' to: '"'
+]
 
-	^ self parsing: subString FromString: 'spanId=' to: ','
+{ #category : #parsing }
+OTelJavaLogFileExtractor >> parseStackcall: aString [ 
+	^ self parsing: aString FromString: 'drit.stackcall=||>|' to: '|<||'
+]
+
+{ #category : #parsing }
+OTelJavaLogFileExtractor >> parseThreadID: aString [
+
+	^ self parsing: aString FromString: 'thread.id=' to: ','
 ]
 
 { #category : #parsing }
@@ -196,8 +231,8 @@ OTelJavaLogFileExtractor >> parseTimestampPP2: aString [
 
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parseTraceID: aString [
-
-	^ self parsing: aString FromString: 'traceId='  to: ','.
+	
+	^ self parsing: aString FromString: ' '  to: ' '.
 ]
 
 { #category : #PP2 }
@@ -210,14 +245,20 @@ OTelJavaLogFileExtractor >> parseTraceIDPP2: aString [
 OTelJavaLogFileExtractor >> parsing: aString FromString: begins to: ends [
 
 	| start end |
-	start := (aString findString: begins) + begins size.
+	
+	start := (aString findString: begins) .
+	
+	"if the string begins is not found, return nil"
+	start = 0 ifTrue: [ ^ nil ].
+	
+	start := start + begins size.
 	end := (aString indexOfAnyOf: ends startingAt: start) - 1.
-
+	lastIndex := end + ends size.
 	^ aString copyFrom: start to: end
 ]
 
 { #category : #parsing }
-OTelJavaLogFileExtractor >> parsingLogsLines: stream [
+OTelJavaLogFileExtractor >> parsingAllLogLines: stream [
 
 	| array line res |
 	array := OrderedCollection new.
@@ -232,9 +273,33 @@ OTelJavaLogFileExtractor >> parsingLogsLines: stream [
 ]
 
 { #category : #parsing }
+OTelJavaLogFileExtractor >> parsingFirstLines: maxLines ofStream: stream [
+
+	"parse the frist lines of a stream. Use it to test the extract on large file"
+
+	| array line res limit |
+	array := OrderedCollection new.
+	line := stream nextLine.
+	limit := 1.
+	[ limit <= maxLines and: [ line isNotNil ] ] whileTrue: [ 
+		array add: (self parseLog: line).
+		line := stream nextLine.
+		limit := limit + 1 ].
+
+	res := OrderedCollection new.
+	res add: array.
+	^ res
+]
+
+{ #category : #parsing }
 OTelJavaLogFileExtractor >> parsingLogsOn: aFileReference [
 
 	| array stream line res |
+	self
+		deprecated: 'Use #parsingLogsOnV2: instead'
+		on: '13 October 2023'
+		in:
+		'Pharo-10.0.0+build.538.sha.179ef655ae2b150009a860b127aa3605366659ca (64 Bit)'.
 	array := OrderedCollection new.
 	stream := aFileReference readStream.
 	line := stream nextLine.
@@ -250,7 +315,7 @@ OTelJavaLogFileExtractor >> parsingLogsOn: aFileReference [
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parsingLogsOnV2: aFileReference [
 
-	^ self parsingLogsLines: aFileReference readStream.
+	^ self parsingAllLogLines: aFileReference readStream.
 ]
 
 { #category : #accessing }

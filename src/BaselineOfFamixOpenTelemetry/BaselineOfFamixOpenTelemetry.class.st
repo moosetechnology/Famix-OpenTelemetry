@@ -23,9 +23,8 @@ BaselineOfFamixOpenTelemetry >> dependencies: spec [
 					'github://Evref-BL/Elasticsearch-Pharo-API:main/src' ];
 		baseline: 'FamixValue'
 		with: [ 
-			spec repository: 'github://moosetechnology/Famix-Value:main/src' ];
-		baseline: 'PetitParser2Gui'
-		with: [ spec repository: 'github://kursjan/petitparser2:master' ]
+			spec repository: 'github://moosetechnology/Famix-Value:main/src' ].
+	
 ]
 
 { #category : #baselines }

@@ -15,6 +15,15 @@ Class {
 	#category : #'Famix-OpenTelemetry-Importer'
 }
 
+{ #category : #'as yet unclassified' }
+OpenTelemetryImporter class >> importFromJavaLogFile: aFilePath [
+
+	^ OpenTelemetryImporter new
+		  extractor: (OTelJavaLogFileExtractor new filename: aFilePath);
+		  loader: OTelJavaLogFileLoader new;
+		  import
+]
+
 { #category : #accessing }
 OpenTelemetryImporter >> extractor [
 
