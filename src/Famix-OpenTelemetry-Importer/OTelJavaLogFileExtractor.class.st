@@ -252,7 +252,8 @@ OTelJavaLogFileExtractor >> parsing: aString FromString: begins to: ends [
 	start = 0 ifTrue: [ ^ nil ].
 	
 	start := start + begins size.
-	end := (aString indexOfAnyOf: ends startingAt: start) - 1.
+	
+	end := (aString indexOfSubCollection: ends startingAt: start) - 1.
 	lastIndex := end + ends size.
 	^ aString copyFrom: start to: end
 ]
