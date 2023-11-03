@@ -88,7 +88,7 @@ OTelFamixValueLinker >> value: model [
 
 	"Link trace model with a Famix model using class, method, args and result tags."
 
-	(model allWithType: FamixOTelSpan) do: [ :span | 
+	model allSpans do: [ :span | 
 		importer reset.
 		self linkOrigin: span.
 		self shouldLinkResultFirst

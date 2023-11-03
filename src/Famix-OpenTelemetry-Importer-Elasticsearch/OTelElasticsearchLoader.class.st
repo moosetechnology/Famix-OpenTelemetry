@@ -13,9 +13,9 @@ OTelElasticsearchLoader >> buildParent: rawTraces [
 	rawTraces do: [ :rawTrace | 
 		rawTrace parent ifNotNil: [ :parent | 
 			| childSpan |
-			childSpan := (self model allWithType: FamixOTelSpan) detect: [ 
-				             :span | span id = (self idOfSpan: rawTrace) ].
-			(self model allWithType: FamixOTelSpan)
+			childSpan := self model allSpans detect: [ :span | 
+				             span id = (self idOfSpan: rawTrace) ].
+			self model allSpans
 				detect: [ :span | span id = parent id ]
 				ifOne: [ :parentSpan | parentSpan addChildren: childSpan ] ] ]
 ]

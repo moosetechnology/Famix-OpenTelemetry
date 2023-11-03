@@ -25,7 +25,6 @@ OTelSpanTransformer >> block: aBlock [
 { #category : #transforming }
 OTelSpanTransformer >> value: model [
 
-	(model allWithType: FamixOTelSpan) do: [ :span | 
-		self block value: span ].
+	model allSpans do: [ :span | self block value: span ].
 	^ model
 ]

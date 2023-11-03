@@ -46,7 +46,6 @@ OTelFamixLinker >> value: model [
 
 	"Link trace model with a Java model using class and method tags."
 
-	(model allWithType: FamixOTelSpan) do: [ :span | 
-		self linkOrigin: span ].
+	model allSpans do: [ :span | self linkOrigin: span ].
 	^ model
 ]
