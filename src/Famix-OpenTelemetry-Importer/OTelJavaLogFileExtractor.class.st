@@ -59,65 +59,17 @@ OTelJavaLogFileExtractor >> filename: anObject [
 	filename := anObject asFileReference 
 ]
 
-{ #category : #accessing }
-OTelJavaLogFileExtractor >> idPP2 [
-
-	^ idPP2
-]
-
 { #category : #initialization }
 OTelJavaLogFileExtractor >> initialize [
 
-	any := #any asPParser.
-	sep := ',' asPParser.
-
-	traceIdPP2 := ('traceId=' asPParser , any starLazy flatten , sep) sea
-	              ==> #second ==> #second.
-
-	idPP2 := ('spanId=' asPParser , any starLazy flatten , sep) sea
-	         ==> #second ==> #second.
-	orderPP2 := ('drit.order=' asPParser , any starLazy flatten , sep)
-		            sea ==> #second ==> #second.
-	methodPP2 := ('drit.method=' asPParser , $" asPParser
-	              , any starLazy flatten , $" asPParser) sea ==> #second
-	             ==> #third.
-	timestampPP2 := ('drit.timestamp=' asPParser
-	                 , #digit asPParser star flatten) sea ==> #second
-	                ==> #second.
-	namePP2 := ('name=' asPParser , any starLazy flatten , sep) sea
-	           ==> #second ==> #second.
 	
 	lastIndex := 0. 
-]
-
-{ #category : #PP2 }
-OTelJavaLogFileExtractor >> methodPP2 [
-
-	^ methodPP2
-]
-
-{ #category : #PP2 }
-OTelJavaLogFileExtractor >> namePP2 [
-
-	^ namePP2
-]
-
-{ #category : #PP2 }
-OTelJavaLogFileExtractor >> orderPP2 [
-
-	^ orderPP2
 ]
 
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parseId: aString [
 
 	^ self parsing: aString FromString: ' ' to: ' '
-]
-
-{ #category : #PP2 }
-OTelJavaLogFileExtractor >> parseIdPP2: aString [
-
-	^ idPP2 parse: aString
 ]
 
 { #category : #parsing }
@@ -170,34 +122,16 @@ OTelJavaLogFileExtractor >> parseMethod: aString [
 	^ self parsing: aString FromString: 'drit.method="' to: '"'
 ]
 
-{ #category : #PP2 }
-OTelJavaLogFileExtractor >> parseMethodPP2: aString [
-
-	^ methodPP2 parse: aString
-]
-
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parseName: aString [
 
 	^ self parsing: aString FromString: '''' to: ''' : '.
 ]
 
-{ #category : #PP2 }
-OTelJavaLogFileExtractor >> parseNamePP2: aString [
-
-	^ namePP2  parse: aString
-]
-
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parseOrder: aString [
 
 	^ self parsing: aString FromString: 'drit.order=' to: ','
-]
-
-{ #category : #PP2 }
-OTelJavaLogFileExtractor >> parseOrderPP2: aString [
-
-	^ orderPP2 parse: aString
 ]
 
 { #category : #parsing }
@@ -223,22 +157,10 @@ OTelJavaLogFileExtractor >> parseTimestamp: aString [
 	^ self parsing: aString FromString: 'drit.timestamp=' to: '}'
 ]
 
-{ #category : #PP2 }
-OTelJavaLogFileExtractor >> parseTimestampPP2: aString [
-
-	^ timestampPP2 parse: aString
-]
-
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parseTraceID: aString [
 	
 	^ self parsing: aString FromString: ' '  to: ' '.
-]
-
-{ #category : #PP2 }
-OTelJavaLogFileExtractor >> parseTraceIDPP2: aString [
-
-	^ traceIdPP2 parse: aString
 ]
 
 { #category : #parsing }
@@ -317,22 +239,4 @@ OTelJavaLogFileExtractor >> parsingLogsOn: aFileReference [
 OTelJavaLogFileExtractor >> parsingLogsOnV2: aFileReference [
 
 	^ self parsingAllLogLines: aFileReference readStream.
-]
-
-{ #category : #accessing }
-OTelJavaLogFileExtractor >> sep [
-
-	^ sep
-]
-
-{ #category : #PP2 }
-OTelJavaLogFileExtractor >> timestampPP2 [
-
-	^ timestampPP2
-]
-
-{ #category : #PP2 }
-OTelJavaLogFileExtractor >> traceIdPP2 [
-
-	^ traceIdPP2
 ]
