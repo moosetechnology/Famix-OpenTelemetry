@@ -1,19 +1,19 @@
-Extension { #name : #FamixOTelModel }
+Extension { #name : #FamixOTelTEntityCreator }
 
 { #category : #'*Famix-OpenTelemetry-Entities-Extensions' }
-FamixOTelModel >> allContexts [
+FamixOTelTEntityCreator >> allContexts [
 
 	^ self allWithType: FamixOTelContext
 ]
 
 { #category : #'*Famix-OpenTelemetry-Entities-Extensions' }
-FamixOTelModel >> allSpans [
+FamixOTelTEntityCreator >> allSpans [
 
 	^ self allWithType: FamixOTelSpan
 ]
 
 { #category : #'*Famix-OpenTelemetry-Entities-Extensions' }
-FamixOTelModel >> allTraces [
+FamixOTelTEntityCreator >> allTraces [
 
 	^ self allWithType: FamixOTelTrace
 ]
