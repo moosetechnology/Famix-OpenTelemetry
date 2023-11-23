@@ -63,7 +63,8 @@ BaselineOfFamixOpenTelemetry >> packages: spec [
 		package: 'Famix-OpenTelemetry-Value-Generator';
 		package: 'Famix-OpenTelemetry-Value-Entities';
 		package: 'Famix-OpenTelemetry-Importer';
-		package: 'Famix-OpenTelemetry-Importer-Tests';
+		package: 'Famix-OpenTelemetry-Importer-Tests'
+		with: [ spec requires: 'Famix-OpenTelemetry-Importer' ];
 		package: 'Famix-OpenTelemetry-Importer-Value'
 		with: [ spec requires: #( 'Famix-OpenTelemetry-Importer' ) ]
 ]
