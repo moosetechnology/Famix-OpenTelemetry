@@ -8,7 +8,7 @@ Class {
 BaselineOfFamixOpenTelemetry >> baseline: spec [
 
 	<baseline>
-	spec for: #common do: [ 
+	spec for: #common do: [
 		self dependencies: spec.
 		self packages: spec.
 		self groups: spec ]
@@ -18,13 +18,12 @@ BaselineOfFamixOpenTelemetry >> baseline: spec [
 BaselineOfFamixOpenTelemetry >> dependencies: spec [
 
 	spec
-		baseline: 'ElasticsearchAPI' with: [ 
+		baseline: 'ElasticsearchAPI' with: [
 			spec repository:
 					'github://Evref-BL/Elasticsearch-Pharo-API:main/src' ];
 		baseline: 'FamixValue'
-		with: [ 
-			spec repository: 'github://moosetechnology/Famix-Value:main/src' ].
-	
+		with: [
+			spec repository: 'github://moosetechnology/Famix-Value:main/src' ]
 ]
 
 { #category : #baselines }
