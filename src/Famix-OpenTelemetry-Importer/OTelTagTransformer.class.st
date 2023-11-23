@@ -37,12 +37,11 @@ OTelTagTransformer >> predicate: aBlock [
 
 { #category : #transforming }
 OTelTagTransformer >> value: model [
-
 	"Apply the block to span tags that fit the predicate."
 
-	model allSpans do: [ :span | 
-		span tags associationsDo: [ :tag | 
-			(self predicate value: tag key) ifTrue: [ 
+	model allSpans do: [ :span |
+		span tags associationsDo: [ :tag |
+			(self predicate value: tag key) ifTrue: [
 				span tags at: tag key put: (self block value: tag value) ] ] ].
 	^ model
 ]

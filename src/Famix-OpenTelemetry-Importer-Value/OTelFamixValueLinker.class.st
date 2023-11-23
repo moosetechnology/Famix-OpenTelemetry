@@ -22,16 +22,16 @@ OTelFamixValueLinker >> argsKey: aString [
 
 { #category : #links }
 OTelFamixValueLinker >> linkArguments: span [
-
 	"Link the serialized arguments to the Famix model."
 
 	| parameters parameter |
 	span origin parameters isEmpty ifTrue: [ ^ self ].
 	parameters := span origin sortedParameters.
-	(importer parseList: (span tags at: argsKey)) withIndexDo: [ 
-		:rawArg :index | 
+	(importer parseList: (span tags at: argsKey)) withIndexDo: [
+		:rawArg
+		:index |
 		parameter := parameters at: index.
-		importer withTypeInference: parameter declaredType do: [ 
+		importer withTypeInference: parameter declaredType do: [
 			(importer importValue: rawArg)
 				typedEntity: parameter;
 				argumentInSpan: span ] ]
@@ -39,11 +39,10 @@ OTelFamixValueLinker >> linkArguments: span [
 
 { #category : #links }
 OTelFamixValueLinker >> linkResult: span [
-
 	"Link the serialized result to the Famix model."
 
 	(importer isProcedure: span origin) ifTrue: [ ^ self ].
-	importer withTypeInference: span origin declaredType do: [ 
+	importer withTypeInference: span origin declaredType do: [
 		(importer parseValue: (span tags at: resultKey))
 			typedEntity: span origin;
 			resultInSpan: span ]
@@ -63,7 +62,6 @@ OTelFamixValueLinker >> shouldLinkResultFirst [
 
 { #category : #transforming }
 OTelFamixValueLinker >> shouldLinkResultFirst: aBoolean [
-
 	"Whether to link the result before the arguments."
 
 	shouldLinkResultFirst := aBoolean
@@ -77,7 +75,6 @@ OTelFamixValueLinker >> shouldResetImporter [
 
 { #category : #transforming }
 OTelFamixValueLinker >> shouldResetImporter: aBoolean [
-
 	"Whether the importer should be reset between linking the result and arguments."
 
 	shouldResetImporter := aBoolean
@@ -85,10 +82,9 @@ OTelFamixValueLinker >> shouldResetImporter: aBoolean [
 
 { #category : #transforming }
 OTelFamixValueLinker >> value: model [
-
 	"Link trace model with a Famix model using class, method, args and result tags."
 
-	model allSpans do: [ :span | 
+	model allSpans do: [ :span |
 		importer reset.
 		self linkOrigin: span.
 		self shouldLinkResultFirst

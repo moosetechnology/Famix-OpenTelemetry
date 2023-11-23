@@ -10,10 +10,10 @@ Class {
 { #category : #loading }
 OTelElasticsearchOtelLoader >> buildParent: rawSpans [
 
-	rawSpans do: [ :rawSpan | 
-		rawSpan at: #ParentSpanId ifPresent: [ :parent | 
+	rawSpans do: [ :rawSpan |
+		rawSpan at: #ParentSpanId ifPresent: [ :parent |
 			| childSpan |
-			childSpan := self model allSpans detect: [ :span | 
+			childSpan := self model allSpans detect: [ :span |
 				             span id = (self idOfSpan: rawSpan) ].
 			self model allSpans
 				detect: [ :span | span id = parent ]
@@ -36,15 +36,15 @@ OTelElasticsearchOtelLoader >> buildSpan: aSpan [
 
 { #category : #'private-accessing' }
 OTelElasticsearchOtelLoader >> idOfSpan: aSpan [
+
 	^ aSpan at: #SpanId
 ]
 
 { #category : #loading }
 OTelElasticsearchOtelLoader >> load: rawTraces [
-
 	"Instantiate trace model from raw data."
 
-	rawTraces do: [ :rawTrace | 
+	rawTraces do: [ :rawTrace |
 		| trace span context |
 		context := self retrieveContext: rawTrace.
 		trace := self retrieveTrace: rawTrace.
@@ -58,6 +58,7 @@ OTelElasticsearchOtelLoader >> load: rawTraces [
 
 { #category : #'private-accessing' }
 OTelElasticsearchOtelLoader >> nameOfSpan: aSpan [
+
 	^ aSpan at: #Name
 ]
 

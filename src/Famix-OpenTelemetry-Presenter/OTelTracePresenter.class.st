@@ -33,7 +33,8 @@ OTelTracePresenter >> initializePresenters [
 			 add: label expand: false fill: false;
 			 add: tree expand: true fill: true;
 			 yourself).
-	tree whenActivatedDo: [ :selection | activationBlock value: selection ]
+	tree whenActivatedDo: [ :selection |
+		activationBlock value: selection ]
 ]
 
 { #category : #initialization }
@@ -46,8 +47,8 @@ OTelTracePresenter >> initializeWindow: aWindowPresenter [
 
 { #category : #'inspector extensions' }
 OTelTracePresenter >> outputActivationPort [
-	^ (SpActivationPort newPresenter: self)
-		yourself
+
+	^ SpActivationPort newPresenter: self
 ]
 
 { #category : #'inspector extensions' }

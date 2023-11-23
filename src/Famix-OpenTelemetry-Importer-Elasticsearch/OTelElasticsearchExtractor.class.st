@@ -39,6 +39,7 @@ OTelElasticsearchExtractor >> beHttps [
 
 { #category : #accessing }
 OTelElasticsearchExtractor >> endpoint: anEndpoint [
+
 	api endpoint: anEndpoint
 ]
 

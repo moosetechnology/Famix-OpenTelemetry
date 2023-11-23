@@ -10,10 +10,10 @@ Class {
 { #category : #loading }
 OTelElasticsearchLoader >> buildParent: rawTraces [
 
-	rawTraces do: [ :rawTrace | 
-		rawTrace parent ifNotNil: [ :parent | 
+	rawTraces do: [ :rawTrace |
+		rawTrace parent ifNotNil: [ :parent |
 			| childSpan |
-			childSpan := self model allSpans detect: [ :span | 
+			childSpan := self model allSpans detect: [ :span |
 				             span id = (self idOfSpan: rawTrace) ].
 			self model allSpans
 				detect: [ :span | span id = parent id ]
@@ -42,10 +42,9 @@ OTelElasticsearchLoader >> idOfSpan: aSpan [
 
 { #category : #loading }
 OTelElasticsearchLoader >> load: rawTraces [
-
 	"Instantiate trace model from raw data."
 
-	rawTraces do: [ :rawTrace | 
+	rawTraces do: [ :rawTrace |
 		| trace span context |
 		context := self retrieveContext: rawTrace.
 		trace := self retrieveTrace: rawTrace.
@@ -67,7 +66,7 @@ OTelElasticsearchLoader >> nameOfSpan: aSpan [
 OTelElasticsearchLoader >> retrieveContext: aTrace [
 
 	^ self model entityStorage
-		  detect: [ :c | 
+		  detect: [ :c |
 		  c isContext and: [ c name = (aTrace at: #service) name ] ]
 		  ifNone: [ self model newContext name: (aTrace at: #service) name ]
 ]

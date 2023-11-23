@@ -4,7 +4,7 @@ Extension { #name : #FamixOTelSpan }
 FamixOTelSpan >> mooseNameOn: stream [
 
 	stream nextPutAll: name.
-	self origin ifNotNil: [ :origin | 
+	self origin ifNotNil: [ :origin |
 		stream
 			nextPutAll: ' (';
 			nextPutAll: origin parentType name;

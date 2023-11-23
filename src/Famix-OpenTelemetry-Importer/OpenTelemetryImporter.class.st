@@ -38,13 +38,12 @@ OpenTelemetryImporter >> extractor: anExtractor [
 
 { #category : #importing }
 OpenTelemetryImporter >> import [
-
 	"Import traces into a model using the configured extractor, loader and transformers."
 
 	| data |
 	data := extractor extract. "obtain raw data"
 	data := loader load: data. "data becomes model"
-	self transformers do: [ :transformer | 
+	self transformers do: [ :transformer |
 		data := transformer value: data ].
 	^ data
 ]

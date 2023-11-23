@@ -24,7 +24,6 @@ OTelJavaLogFileExtractor >> any [
 
 { #category : #parsing }
 OTelJavaLogFileExtractor >> debuggingParsingFirstLines: maxLines ofStream: stream [
-
 	"parse the frist lines of a stream. Use it to test the extract on large file"
 
 	| array line res limit |
@@ -43,8 +42,8 @@ OTelJavaLogFileExtractor >> debuggingParsingFirstLines: maxLines ofStream: strea
 
 { #category : #extraction }
 OTelJavaLogFileExtractor >> extract [
-	
-	^ (self parsingLogsOnV2: filename)
+
+	^ self parsingLogsOnV2: filename
 ]
 
 { #category : #accessing }
@@ -56,14 +55,13 @@ OTelJavaLogFileExtractor >> filename [
 { #category : #accessing }
 OTelJavaLogFileExtractor >> filename: anObject [
 
-	filename := anObject asFileReference 
+	filename := anObject asFileReference
 ]
 
 { #category : #initialization }
 OTelJavaLogFileExtractor >> initialize [
 
-	
-	lastIndex := 0. 
+	lastIndex := 0
 ]
 
 { #category : #parsing }
@@ -125,7 +123,7 @@ OTelJavaLogFileExtractor >> parseMethod: aString [
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parseName: aString [
 
-	^ self parsing: aString FromString: '''' to: ''' : '.
+	^ self parsing: aString FromString: '''' to: ''' : '
 ]
 
 { #category : #parsing }
@@ -136,12 +134,13 @@ OTelJavaLogFileExtractor >> parseOrder: aString [
 
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parseParentId: aString [
-	
-^ self parsing: aString FromString: 'drit.parentId="' to: '"'
+
+	^ self parsing: aString FromString: 'drit.parentId="' to: '"'
 ]
 
 { #category : #parsing }
-OTelJavaLogFileExtractor >> parseStackcall: aString [ 
+OTelJavaLogFileExtractor >> parseStackcall: aString [
+
 	^ self parsing: aString FromString: 'drit.stackcall=||>|' to: '|<||'
 ]
 
@@ -159,22 +158,21 @@ OTelJavaLogFileExtractor >> parseTimestamp: aString [
 
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parseTraceID: aString [
-	
-	^ self parsing: aString FromString: ' '  to: ' '.
+
+	^ self parsing: aString FromString: ' ' to: ' '
 ]
 
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parsing: aString FromString: begins to: ends [
 
 	| start end |
-	
-	start := (aString findString: begins) .
-	
+	start := aString findString: begins.
+
 	"if the string begins is not found, return nil"
 	start = 0 ifTrue: [ ^ nil ].
-	
+
 	start := start + begins size.
-	
+
 	end := (aString indexOfSubCollection: ends startingAt: start) - 1.
 	lastIndex := end + ends size.
 	^ aString copyFrom: start to: end
@@ -186,7 +184,7 @@ OTelJavaLogFileExtractor >> parsingAllLogLines: stream [
 	| array line res |
 	array := OrderedCollection new.
 	line := stream nextLine.
-	[ line isNotNil ] whileTrue: [ 
+	[ line isNotNil ] whileTrue: [
 		array add: (self parseLog: line).
 		line := stream nextLine ].
 
@@ -197,14 +195,13 @@ OTelJavaLogFileExtractor >> parsingAllLogLines: stream [
 
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parsingFirstLines: maxLines ofStream: stream [
-
 	"parse the frist lines of a stream. Use it to test the extract on large file"
 
 	| array line res limit |
 	array := OrderedCollection new.
 	line := stream nextLine.
 	limit := 1.
-	[ limit <= maxLines and: [ line isNotNil ] ] whileTrue: [ 
+	[ limit <= maxLines and: [ line isNotNil ] ] whileTrue: [
 		array add: (self parseLog: line).
 		line := stream nextLine.
 		limit := limit + 1 ].
@@ -226,7 +223,7 @@ OTelJavaLogFileExtractor >> parsingLogsOn: aFileReference [
 	array := OrderedCollection new.
 	stream := aFileReference readStream.
 	line := stream nextLine.
-	[ line isNotNil ] whileTrue: [ 
+	[ line isNotNil ] whileTrue: [
 		array add: (self parseLog: line).
 		line := stream nextLine ].
 
@@ -238,5 +235,5 @@ OTelJavaLogFileExtractor >> parsingLogsOn: aFileReference [
 { #category : #parsing }
 OTelJavaLogFileExtractor >> parsingLogsOnV2: aFileReference [
 
-	^ self parsingAllLogLines: aFileReference readStream.
+	^ self parsingAllLogLines: aFileReference readStream
 ]

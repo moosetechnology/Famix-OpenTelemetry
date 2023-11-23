@@ -27,7 +27,6 @@ OTelFamixLinker >> importer: aFamixValueImporter [
 
 { #category : #links }
 OTelFamixLinker >> linkOrigin: span [
-
 	"Link the span origin to the method in the Famix model."
 
 	span origin: (importer entityFinder
@@ -43,7 +42,6 @@ OTelFamixLinker >> methodKey: aString [
 
 { #category : #transforming }
 OTelFamixLinker >> value: model [
-
 	"Link trace model with a Java model using class and method tags."
 
 	model allSpans do: [ :span | self linkOrigin: span ].

@@ -26,13 +26,12 @@ OTelZipkinExtractor >> endpoint: host [
 
 { #category : #extraction }
 OTelZipkinExtractor >> extract [
-
 	"Ask Zipkin server for traces and parse result."
 
 	| url data |
-	url := String streamContents: [ :stream | 
+	url := String streamContents: [ :stream |
 		       stream << endpoint << '/api/v2/traces?'.
-		       self parameters associationsDo: [ :param | 
+		       self parameters associationsDo: [ :param |
 			       stream << $& << param key << $= << param value ] ].
 	data := ZnClient new get: url.
 	self output: data.

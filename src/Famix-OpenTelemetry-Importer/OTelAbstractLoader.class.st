@@ -13,7 +13,6 @@ Class {
 
 { #category : #loading }
 OTelAbstractLoader >> load: traces [
-
 	"Instantiate trace model from raw data."
 
 	self subclassResponsibility

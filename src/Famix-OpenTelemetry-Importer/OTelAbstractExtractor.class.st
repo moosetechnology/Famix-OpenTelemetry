@@ -20,14 +20,13 @@ OTelAbstractExtractor >> extract [
 { #category : #fileout }
 OTelAbstractExtractor >> output: blockOrSerializedValue [
 
-	outputFilename ifNotNil: [ 
+	outputFilename ifNotNil: [
 		(outputFilename asFileReference ensureDelete ensureCreateFile
 			 writeStream nextPutAll: blockOrSerializedValue value) close ]
 ]
 
 { #category : #accessing }
 OTelAbstractExtractor >> outputFilename: filename [
-
 	"Set an optional file to save the extracted data."
 
 	outputFilename := filename

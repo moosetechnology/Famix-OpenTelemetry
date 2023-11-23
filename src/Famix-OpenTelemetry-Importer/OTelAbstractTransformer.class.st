@@ -11,7 +11,6 @@ Class {
 
 { #category : #transforming }
 OTelAbstractTransformer >> value: data [
-
 	"Apply a transformation to trace data."
 
 	self subclassResponsibility
