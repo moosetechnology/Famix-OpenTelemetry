@@ -11,6 +11,12 @@ Class {
 	#category : #'Famix-OpenTelemetry-Importer'
 }
 
+{ #category : #testing }
+OTelAbstractExtractor class >> isAbstract [
+
+	^ self == OTelAbstractExtractor
+]
+
 { #category : #extraction }
 OTelAbstractExtractor >> extract [
 

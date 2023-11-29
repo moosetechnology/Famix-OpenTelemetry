@@ -11,6 +11,12 @@ Class {
 	#category : #'Famix-OpenTelemetry-Importer'
 }
 
+{ #category : #testing }
+OTelAbstractLoader class >> isAbstract [
+
+	^ self == OTelAbstractLoader
+]
+
 { #category : #loading }
 OTelAbstractLoader >> load: traces [
 	"Instantiate trace model from raw data."

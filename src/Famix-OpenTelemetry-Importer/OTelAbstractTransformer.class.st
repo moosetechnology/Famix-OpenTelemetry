@@ -9,9 +9,15 @@ Class {
 	#category : #'Famix-OpenTelemetry-Importer'
 }
 
+{ #category : #testing }
+OTelAbstractTransformer class >> isAbstract [
+
+	^ self == OTelAbstractTransformer
+]
+
 { #category : #transforming }
-OTelAbstractTransformer >> value: data [
-	"Apply a transformation to trace data."
+OTelAbstractTransformer >> value: model [
+	"Apply a transformation to trace model."
 
 	self subclassResponsibility
 ]
