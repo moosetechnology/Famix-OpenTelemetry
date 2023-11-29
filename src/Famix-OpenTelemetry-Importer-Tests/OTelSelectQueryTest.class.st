@@ -6,3 +6,16 @@ Class {
 	#superclass : #OTelQueryTest,
 	#category : #'Famix-OpenTelemetry-Importer-Tests'
 }
+
+{ #category : #tests }
+OTelSelectQueryTest >> testValue [
+
+	| originalSize |
+	originalSize := model size.
+
+	(OTelSelectQuery selector: [ :span | span name = 'foo' ]) value:
+		model.
+
+	self deny: model size equals: originalSize.
+	self assert: model size equals: 2
+]

@@ -13,3 +13,13 @@ OTelQueryTest class >> isAbstract [
 
 	^ self == OTelQueryTest
 ]
+
+{ #category : #running }
+OTelQueryTest >> setUp [
+
+	super setUp.
+	model := FamixOTelModel new.
+	model newSpan name: 'foo'.
+	(childSpan := model newSpan name: 'child') parent:
+		(model newSpan name: 'foo')
+]
