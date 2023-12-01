@@ -9,7 +9,7 @@ SmalltalkCISpec {
   ],
   #testing : {
     #coverage : {
-      #packages : [ 'Famix-OpenTelemetry.*' ],
+      #packages : [ '^Famix-OpenTelemetry(?!.*-(?:Entities|Generator)$).*$' ],
       #format : #lcov
     }
   }
