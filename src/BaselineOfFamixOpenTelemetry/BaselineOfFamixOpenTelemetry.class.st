@@ -36,7 +36,9 @@ BaselineOfFamixOpenTelemetry >> groups: spec [
 		with:
 			#( 'Famix-OpenTelemetry-Entities' 'Famix-OpenTelemetry-Entities-Extensions'
 			   'Famix-OpenTelemetry-Generator' 'Famix-OpenTelemetry-Presenter' );
-		group: 'importer' with: #( 'Famix-OpenTelemetry-Importer' );
+		group: 'importer'
+		with:
+			#( 'Famix-OpenTelemetry-Importer' 'Famix-OpenTelemetry-Importer-Tests' );
 		group: 'elasticsearch'
 		with: #( 'default' 'Famix-OpenTelemetry-Importer-Elasticsearch'
 			   'ElasticsearchAPI' );
