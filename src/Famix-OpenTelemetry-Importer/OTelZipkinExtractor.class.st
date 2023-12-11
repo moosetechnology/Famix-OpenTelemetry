@@ -32,7 +32,7 @@ OTelZipkinExtractor >> extract [
 	url := String streamContents: [ :stream |
 		       stream << endpoint << '/api/v2/traces?'.
 		       self parameters associationsDo: [ :param |
-			       stream << $& << param key << $= << param value ] ].
+			       stream << $& << param key << $= << param value asString ] ].
 	data := ZnClient new get: url.
 	self output: data.
 	^ (NeoJSONReader on: data readStream) parseList
