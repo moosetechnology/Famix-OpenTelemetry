@@ -41,7 +41,7 @@ OTelFamixValueLinker >> linkArguments: span [
 OTelFamixValueLinker >> linkResult: span [
 	"Link the serialized result to the Famix model."
 
-	(importer isProcedure: span origin) ifTrue: [ ^ self ].
+	span origin isProcedure ifTrue: [ ^ self ].
 	importer withTypeInference: span origin declaredType do: [
 		(importer parseValue: (span tags at: resultKey))
 			typedEntity: span origin;
