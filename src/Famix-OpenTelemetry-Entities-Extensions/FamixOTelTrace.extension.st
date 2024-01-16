@@ -12,11 +12,11 @@ FamixOTelTrace >> printOn: aStream [
 	aStream << 'Trace '.
 	self id printOn: aStream.
 	aStream << ': '.
-	self rootsSpan anyOne printOn: aStream
+	self rootSpan printOn: aStream
 ]
 
 { #category : #'*Famix-OpenTelemetry-Entities-Extensions' }
-FamixOTelTrace >> rootsSpan [
+FamixOTelTrace >> rootSpan [
 
-	^ self spans select: [ :sp | sp parent isNil ]
+	^ spans detect: [ :span | span parent isNil ]
 ]

@@ -18,6 +18,31 @@ FamixValueOfType >> argumentInSpan: anObject [
 ]
 
 { #category : #'*Famix-OpenTelemetry-Value-Entities-accessing' }
+FamixValueOfType >> receiverInSpan [
+	"Relation named: #receiverInSpan type: #FamixOTelSpan opposite: #receiver"
+
+	<generated>
+	<derived>
+	<FMProperty: #receiverInSpan type: #FamixOTelSpan opposite: #receiver>
+	<package: #'Famix-OpenTelemetry-Value-Entities'>
+	^ self attributeAt: #receiverInSpan ifAbsent: [ nil ]
+]
+
+{ #category : #'*Famix-OpenTelemetry-Value-Entities-accessing' }
+FamixValueOfType >> receiverInSpan: anObject [
+
+	<generated>
+	(self attributeAt: #receiverInSpan ifAbsentPut: [nil]) == anObject ifTrue: [ ^ anObject ].
+	anObject ifNil: [ | otherSide |
+		otherSide :=  self receiverInSpan.
+		self attributeAt: #receiverInSpan put: anObject.
+		otherSide receiver: nil ]
+	ifNotNil: [ 
+		self attributeAt: #receiverInSpan put: anObject.
+		anObject receiver: self ]
+]
+
+{ #category : #'*Famix-OpenTelemetry-Value-Entities-accessing' }
 FamixValueOfType >> resultInSpan [
 	"Relation named: #resultInSpan type: #FamixOTelSpan opposite: #result"
 

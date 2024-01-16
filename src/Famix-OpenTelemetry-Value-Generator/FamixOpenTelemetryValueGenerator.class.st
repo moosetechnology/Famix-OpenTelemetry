@@ -41,6 +41,7 @@ FamixOpenTelemetryValueGenerator >> defineClasses [
 { #category : #definition }
 FamixOpenTelemetryValueGenerator >> defineRelations [
 
+	(span property: #receiver) - (value property: #receiverInSpan).
 	(span property: #arguments) -* (value property: #argumentInSpan).
 	(span property: #result) - (value property: #resultInSpan)
 ]
