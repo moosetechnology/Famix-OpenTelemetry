@@ -1,5 +1,24 @@
 "
 I hold informations about the context of a set of `Span`s. Several contexts can exist per `Trace` in a distributed system.
+
+## Relations
+======================
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `spans` | `FamixOTelContext` | `context` | `FamixOTelSpan` | |
+| `traces` | `FamixOTelContext` | `contexts` | `FamixOTelTrace` | |
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `data` | `Object` | nil | |
+| `name` | `String` | nil | |
+
 "
 Class {
 	#name : #FamixOTelContext,

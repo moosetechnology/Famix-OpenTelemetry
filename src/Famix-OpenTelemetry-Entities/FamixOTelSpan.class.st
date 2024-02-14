@@ -1,5 +1,30 @@
 "
 I represent a unit of work or operation. Spans are the building blocks of `Trace`s.
+
+## Relations
+======================
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `children` | `FamixOTelSpan` | `parent` | `FamixOTelSpan` | |
+| `context` | `FamixOTelSpan` | `spans` | `FamixOTelContext` | |
+| `origin` | `FamixOTelSpan` | `otelSpans` | `FamixTMethod` | |
+| `parent` | `FamixOTelSpan` | `children` | `FamixOTelSpan` | |
+| `trace` | `FamixOTelSpan` | `spans` | `FamixOTelTrace` | |
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `duration` | `Number` | nil | |
+| `id` | `String` | nil | |
+| `name` | `String` | nil | |
+| `tags` | `Object` | nil | |
+| `timestamp` | `Number` | nil | |
+
 "
 Class {
 	#name : #FamixOTelSpan,

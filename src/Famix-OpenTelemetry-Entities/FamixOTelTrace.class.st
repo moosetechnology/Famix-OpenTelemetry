@@ -1,5 +1,23 @@
 "
 I give the big picture of what happens when a request is made by user or an application. Traces are composed of `Span`s.
+
+## Relations
+======================
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `contexts` | `FamixOTelTrace` | `traces` | `FamixOTelContext` | |
+| `spans` | `FamixOTelTrace` | `trace` | `FamixOTelSpan` | |
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `id` | `String` | nil | |
+
 "
 Class {
 	#name : #FamixOTelTrace,
