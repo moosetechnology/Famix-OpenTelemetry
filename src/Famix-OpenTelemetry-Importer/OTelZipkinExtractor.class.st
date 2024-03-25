@@ -12,6 +12,13 @@ Class {
 	#category : #'Famix-OpenTelemetry-Importer'
 }
 
+{ #category : #parameters }
+OTelZipkinExtractor >> endTs: anInteger [
+	"Only return traces where all timestamp are at or before this time in epoch milliseconds."
+
+	self parameters at: 'endTs' put: anInteger
+]
+
 { #category : #accessing }
 OTelZipkinExtractor >> endpoint [
 
@@ -29,10 +36,7 @@ OTelZipkinExtractor >> extract [
 	"Ask Zipkin server for traces and parse result."
 
 	| url data |
-	url := String streamContents: [ :stream |
-		       stream << endpoint << '/api/v2/traces?'.
-		       self parameters associationsDo: [ :param |
-			       stream << $& << param key << $= << param value asString ] ].
+	url := self request.
 	data := ZnClient new get: url.
 	self output: data.
 	^ (NeoJSONReader on: data readStream) parseList
@@ -44,10 +48,26 @@ OTelZipkinExtractor >> limit: anInteger [
 	self parameters at: 'limit' put: anInteger
 ]
 
+{ #category : #parameters }
+OTelZipkinExtractor >> lookback: anInteger [
+	"Only return traces where all timestamp are at or after `endTs - lookback`, in  milliseconds."
+
+	self parameters at: 'lookback' put: anInteger
+]
+
 { #category : #accessing }
 OTelZipkinExtractor >> parameters [
 
 	^ parameters ifNil: [ parameters := Dictionary new ]
+]
+
+{ #category : #extraction }
+OTelZipkinExtractor >> request [
+
+	^ String streamContents: [ :stream |
+		  stream << endpoint << '/api/v2/traces?'.
+		  self parameters associationsDo: [ :param |
+			  stream << $& << param key << $= << param value asString ] ]
 ]
 
 { #category : #parameters }
