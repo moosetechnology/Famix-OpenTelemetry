@@ -9,7 +9,8 @@ Class {
 		'argsKey',
 		'resultKey',
 		'shouldLinkResultFirst',
-		'shouldResetImporter'
+		'shouldResetImporter',
+		'receiverKey'
 	],
 	#category : #'Famix-OpenTelemetry-Importer-Value'
 }
@@ -37,6 +38,14 @@ OTelFamixValueLinker >> linkArguments: span [
 				argumentInSpan: span ] ]
 ]
 
+{ #category : #transforming }
+OTelFamixValueLinker >> linkReceiver: span [
+
+	importer withTypeInference: span origin parentType do: [
+		(importer parseValue: (span tags at: receiverKey)) receiverInSpan:
+			span ]
+]
+
 { #category : #links }
 OTelFamixValueLinker >> linkResult: span [
 	"Link the serialized result to the Famix model."
@@ -46,6 +55,12 @@ OTelFamixValueLinker >> linkResult: span [
 		(importer parseValue: (span tags at: resultKey))
 			typedEntity: span origin;
 			resultInSpan: span ]
+]
+
+{ #category : #transforming }
+OTelFamixValueLinker >> receiverKey: aString [
+
+	receiverKey := aString
 ]
 
 { #category : #accessing }
@@ -87,6 +102,7 @@ OTelFamixValueLinker >> value: model [
 	model allSpans do: [ :span |
 		importer reset.
 		self linkOrigin: span.
+		self linkReceiver: span.
 		self shouldLinkResultFirst
 			ifTrue: [ self linkResult: span ]
 			ifFalse: [ self linkArguments: span ].
