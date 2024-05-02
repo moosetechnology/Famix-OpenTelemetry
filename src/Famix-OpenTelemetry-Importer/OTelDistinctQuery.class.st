@@ -13,9 +13,7 @@ Class {
 OTelDistinctQuery >> value: model [
 	"Only keep distinct spans in the model."
 
-	| groups |
-	groups := model allSpans groupedBy: selector.
-	groups valuesDo: [ :spans |
+	(model allSpans groupedBy: selector) valuesDo: [ :spans |
 		2 to: spans size do: [ :i | self removeSpan: (spans at: i) ] ].
 	^ model
 ]
