@@ -104,6 +104,7 @@ OTelFamixValueLinker >> value: model [
 		importer reset.
 		self linkOrigin: span.
 		self linkReceiver: span.
+		self shouldResetImporter ifTrue: [ importer reset ].
 		self shouldLinkResultFirst
 			ifTrue: [ self linkResult: span ]
 			ifFalse: [ self linkArguments: span ].
