@@ -10,7 +10,18 @@ Class {
 { #category : #extraction }
 OTelSTONFileExtractor >> extract [
 
-	^ (STONReader on: filename asFileReference readStream) next
+	| file |
+	^ (file := filename asFileReference) isDirectory
+		  ifTrue: [
+			  (file children select: [ :f | f extension = 'ston' ])
+				  flatCollect: [ :f | self extract: f ] ]
+		  ifFalse: [ self extract: file ]
+]
+
+{ #category : #accessing }
+OTelSTONFileExtractor >> extract: file [
+
+	^ (STONReader on: file readStream) next
 ]
 
 { #category : #accessing }
