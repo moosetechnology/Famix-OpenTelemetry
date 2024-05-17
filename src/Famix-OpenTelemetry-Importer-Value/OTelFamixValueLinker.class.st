@@ -41,6 +41,7 @@ OTelFamixValueLinker >> linkArguments: span [
 { #category : #transforming }
 OTelFamixValueLinker >> linkReceiver: span [
 
+	receiverKey ifNil: [ ^ self ].
 	importer withTypeInference: span origin parentType do: [
 		(importer parseValue: (span tags at: receiverKey)) receiverInSpan:
 			span ]
