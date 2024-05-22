@@ -33,7 +33,7 @@ OTelFamixValueLinker >> linkArguments: span [
 				| argument |
 				argument := importer importValue: rawArg.
 				argument typedEntity ifNil: [ argument typedEntity: parameter ].
-				importer model newSpanArgument
+				span mooseModel newSpanArgument
 					value: argument;
 					span: span ] ]
 ]
