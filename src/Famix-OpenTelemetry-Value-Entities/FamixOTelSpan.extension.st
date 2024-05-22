@@ -2,13 +2,13 @@ Extension { #name : #FamixOTelSpan }
 
 { #category : #'*Famix-OpenTelemetry-Value-Entities-accessing' }
 FamixOTelSpan >> arguments [
-	"Relation named: #arguments type: #FamixValueOfType opposite: #argumentInSpan"
+	"Relation named: #arguments type: #FamixOTelValueSpanArgument opposite: #span"
 
 	<generated>
 	<derived>
-	<FMProperty: #arguments type: #FamixValueOfType opposite: #argumentInSpan>
+	<FMProperty: #arguments type: #FamixOTelValueSpanArgument opposite: #span>
 	<package: #'Famix-OpenTelemetry-Value-Entities'>
-	^ self attributeAt: #arguments ifAbsentPut: [ FMMultivalueLink on: self opposite: #argumentInSpan: ]
+	^ self attributeAt: #arguments ifAbsentPut: [ FMMultivalueLink on: self opposite: #span: ]
 ]
 
 { #category : #'*Famix-OpenTelemetry-Value-Entities-accessing' }

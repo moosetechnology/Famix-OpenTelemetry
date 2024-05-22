@@ -18,6 +18,24 @@ FamixValueOfType >> argumentInSpan: anObject [
 ]
 
 { #category : #'*Famix-OpenTelemetry-Value-Entities-accessing' }
+FamixValueOfType >> argumentInSpans [
+	"Relation named: #argumentInSpans type: #FamixOTelValueSpanArgument opposite: #value"
+
+	<generated>
+	<derived>
+	<FMProperty: #argumentInSpans type: #FamixOTelValueSpanArgument opposite: #value>
+	<package: #'Famix-OpenTelemetry-Value-Entities'>
+	^ self attributeAt: #argumentInSpans ifAbsentPut: [ FMMultivalueLink on: self opposite: #value: ]
+]
+
+{ #category : #'*Famix-OpenTelemetry-Value-Entities-accessing' }
+FamixValueOfType >> argumentInSpans: anObject [
+
+	<generated>
+	self argumentInSpans value: anObject
+]
+
+{ #category : #'*Famix-OpenTelemetry-Value-Entities-accessing' }
 FamixValueOfType >> receiverInSpan [
 	"Relation named: #receiverInSpan type: #FamixOTelSpan opposite: #receiver"
 

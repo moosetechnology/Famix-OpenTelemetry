@@ -6,7 +6,8 @@ Class {
 	#superclass : #FamixMetamodelGenerator,
 	#instVars : [
 		'span',
-		'value'
+		'value',
+		'argument'
 	],
 	#category : #'Famix-OpenTelemetry-Value-Generator'
 }
@@ -34,6 +35,11 @@ FamixOpenTelemetryValueGenerator class >> submetamodels [
 { #category : #definition }
 FamixOpenTelemetryValueGenerator >> defineClasses [
 
+	argument := builder
+		            newClassNamed: #SpanArgument
+		            comment:
+		            'An association between a `Span` and a `Value` argument.'.
+
 	span := self remoteEntity: #Span withPrefix: #FamixOTel.
 	value := self remoteEntity: #OfType withPrefix: #FamixValue
 ]
@@ -41,7 +47,9 @@ FamixOpenTelemetryValueGenerator >> defineClasses [
 { #category : #definition }
 FamixOpenTelemetryValueGenerator >> defineRelations [
 
+	(span property: #arguments) -* (argument property: #span).
+	(argument property: #value) *- (value property: #argumentInSpans).
+
 	(span property: #receiver) - (value property: #receiverInSpan).
-	(span property: #arguments) -* (value property: #argumentInSpan).
 	(span property: #result) - (value property: #resultInSpan)
 ]

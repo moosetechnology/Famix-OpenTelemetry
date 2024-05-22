@@ -1,8 +1,8 @@
 Class {
 	#name : #FamixOTelValueModel,
 	#superclass : #MooseModel,
-	#traits : 'FamixOTelTEntityCreator + FamixValueTEntityCreator',
-	#classTraits : 'FamixOTelTEntityCreator classTrait + FamixValueTEntityCreator classTrait',
+	#traits : 'FamixOTelTEntityCreator + FamixOTelValueTEntityCreator + FamixValueTEntityCreator',
+	#classTraits : 'FamixOTelTEntityCreator classTrait + FamixOTelValueTEntityCreator classTrait + FamixValueTEntityCreator classTrait',
 	#category : #'Famix-OpenTelemetry-Value-Entities-Model'
 }
 
