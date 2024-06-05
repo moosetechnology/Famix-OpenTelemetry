@@ -17,7 +17,7 @@ OTelElasticsearchLoader >> buildParent: rawTraces [
 				             span id = (self idOfSpan: rawTrace) ].
 			self model allSpans
 				detect: [ :span | span id = parent id ]
-				ifOne: [ :parentSpan | parentSpan addChildren: childSpan ] ] ]
+				ifFound: [ :parentSpan | parentSpan addChildren: childSpan ] ] ]
 ]
 
 { #category : #loading }

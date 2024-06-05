@@ -17,7 +17,7 @@ OTelElasticsearchOtelLoader >> buildParent: rawSpans [
 				             span id = (self idOfSpan: rawSpan) ].
 			self model allSpans
 				detect: [ :span | span id = parent ]
-				ifOne: [ :parentSpan | parentSpan addChildren: childSpan ] ] ]
+				ifFound: [ :parentSpan | parentSpan addChildren: childSpan ] ] ]
 ]
 
 { #category : #loading }
