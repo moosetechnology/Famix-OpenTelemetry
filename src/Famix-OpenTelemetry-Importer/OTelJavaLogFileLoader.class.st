@@ -1,13 +1,14 @@
 Class {
-	#name : #OTelJavaLogFileLoader,
-	#superclass : #OTelAbstractLoader,
+	#name : 'OTelJavaLogFileLoader',
+	#superclass : 'OTelAbstractLoader',
 	#instVars : [
 		'entityDict'
 	],
-	#category : #'Famix-OpenTelemetry-Importer'
+	#category : 'Famix-OpenTelemetry-Importer',
+	#package : 'Famix-OpenTelemetry-Importer'
 }
 
-{ #category : #loading }
+{ #category : 'loading' }
 OTelJavaLogFileLoader >> load: rawTraces [
 	"Instantiate trace model from raw data."
 
@@ -30,7 +31,7 @@ OTelJavaLogFileLoader >> load: rawTraces [
 	^ self model
 ]
 
-{ #category : #'private - loading' }
+{ #category : 'private - loading' }
 OTelJavaLogFileLoader >> loadContext: rawSpan [
 
 	| ctxData serviceName |
@@ -42,7 +43,7 @@ OTelJavaLogFileLoader >> loadContext: rawSpan [
 			  data: ctxData ]
 ]
 
-{ #category : #'private - loading' }
+{ #category : 'private - loading' }
 OTelJavaLogFileLoader >> loadSpan: rawSpan [
 
 	| span |
@@ -59,7 +60,7 @@ OTelJavaLogFileLoader >> loadSpan: rawSpan [
 	^ entityDict at: span id put: span
 ]
 
-{ #category : #'private - loading' }
+{ #category : 'private - loading' }
 OTelJavaLogFileLoader >> loadTrace: rawSpan [
 
 	^ rawSpan at: 'traceId' ifPresent: [ :tid |

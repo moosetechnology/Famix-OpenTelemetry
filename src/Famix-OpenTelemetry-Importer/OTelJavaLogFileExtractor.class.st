@@ -1,6 +1,6 @@
 Class {
-	#name : #OTelJavaLogFileExtractor,
-	#superclass : #OTelAbstractExtractor,
+	#name : 'OTelJavaLogFileExtractor',
+	#superclass : 'OTelAbstractExtractor',
 	#instVars : [
 		'filename',
 		'traceIdPP2',
@@ -13,16 +13,17 @@ Class {
 		'sep',
 		'lastIndex'
 	],
-	#category : #'Famix-OpenTelemetry-Importer'
+	#category : 'Famix-OpenTelemetry-Importer',
+	#package : 'Famix-OpenTelemetry-Importer'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelJavaLogFileExtractor >> any [
 
 	^ any
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> debuggingParsingFirstLines: maxLines ofStream: stream [
 	"parse the frist lines of a stream. Use it to test the extract on large file"
 
@@ -40,37 +41,37 @@ OTelJavaLogFileExtractor >> debuggingParsingFirstLines: maxLines ofStream: strea
 	^ res
 ]
 
-{ #category : #extraction }
+{ #category : 'extraction' }
 OTelJavaLogFileExtractor >> extract [
 
 	^ self parsingLogsOnV2: filename
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelJavaLogFileExtractor >> filename [
 
 	^ filename
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelJavaLogFileExtractor >> filename: anObject [
 
 	filename := anObject asFileReference
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 OTelJavaLogFileExtractor >> initialize [
 
 	lastIndex := 0
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parseId: aString [
 
 	^ self parsing: aString FromString: ' ' to: ' '
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parseLog: line [
 
 	| dic subLine |
@@ -114,55 +115,55 @@ OTelJavaLogFileExtractor >> parseLog: line [
 	^ dic
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parseMethod: aString [
 
 	^ self parsing: aString FromString: 'drit.method="' to: '"'
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parseName: aString [
 
 	^ self parsing: aString FromString: '''' to: ''' : '
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parseOrder: aString [
 
 	^ self parsing: aString FromString: 'drit.order=' to: ','
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parseParentId: aString [
 
 	^ self parsing: aString FromString: 'drit.parentId="' to: '"'
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parseStackcall: aString [
 
 	^ self parsing: aString FromString: 'drit.stackcall=||>|' to: '|<||'
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parseThreadID: aString [
 
 	^ self parsing: aString FromString: 'thread.id=' to: ','
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parseTimestamp: aString [
 
 	^ self parsing: aString FromString: 'drit.timestamp=' to: '}'
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parseTraceID: aString [
 
 	^ self parsing: aString FromString: ' ' to: ' '
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parsing: aString FromString: begins to: ends [
 
 	| start end |
@@ -178,7 +179,7 @@ OTelJavaLogFileExtractor >> parsing: aString FromString: begins to: ends [
 	^ aString copyFrom: start to: end
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parsingAllLogLines: stream [
 
 	| array line res |
@@ -193,7 +194,7 @@ OTelJavaLogFileExtractor >> parsingAllLogLines: stream [
 	^ res
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parsingFirstLines: maxLines ofStream: stream [
 	"parse the frist lines of a stream. Use it to test the extract on large file"
 
@@ -211,7 +212,7 @@ OTelJavaLogFileExtractor >> parsingFirstLines: maxLines ofStream: stream [
 	^ res
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parsingLogsOn: aFileReference [
 
 	| array stream line res |
@@ -232,7 +233,7 @@ OTelJavaLogFileExtractor >> parsingLogsOn: aFileReference [
 	^ res
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 OTelJavaLogFileExtractor >> parsingLogsOnV2: aFileReference [
 
 	^ self parsingAllLogLines: aFileReference readStream

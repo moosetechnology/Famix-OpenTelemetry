@@ -4,12 +4,13 @@ How two traces are considered the same depends on the `selector` attribute.
 It must be a one-arg block that is used to group traces, and only one of each group is kept in the model.
 "
 Class {
-	#name : #OTelDistinctQuery,
-	#superclass : #OTelQuery,
-	#category : #'Famix-OpenTelemetry-Importer'
+	#name : 'OTelDistinctQuery',
+	#superclass : 'OTelQuery',
+	#category : 'Famix-OpenTelemetry-Importer',
+	#package : 'Famix-OpenTelemetry-Importer'
 }
 
-{ #category : #transforming }
+{ #category : 'transforming' }
 OTelDistinctQuery >> value: model [
 	"Only keep distinct spans in the model."
 

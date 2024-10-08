@@ -1,10 +1,11 @@
 Class {
-	#name : #OTelSTONFileLoader,
-	#superclass : #OTelAbstractLoader,
-	#category : #'Famix-OpenTelemetry-Importer'
+	#name : 'OTelSTONFileLoader',
+	#superclass : 'OTelAbstractLoader',
+	#category : 'Famix-OpenTelemetry-Importer',
+	#package : 'Famix-OpenTelemetry-Importer'
 }
 
-{ #category : #loading }
+{ #category : 'loading' }
 OTelSTONFileLoader >> load: rawTraces [
 
 	rawTraces do: [ :rawSpan |
@@ -13,7 +14,7 @@ OTelSTONFileLoader >> load: rawTraces [
 	^ self model
 ]
 
-{ #category : #'private - loading' }
+{ #category : 'private - loading' }
 OTelSTONFileLoader >> loadSpan: anOTSpan [
 
 	^ self model newSpan

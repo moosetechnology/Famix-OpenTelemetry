@@ -1,13 +1,14 @@
 Class {
-	#name : #OTelSTONFileExtractor,
-	#superclass : #OTelAbstractExtractor,
+	#name : 'OTelSTONFileExtractor',
+	#superclass : 'OTelAbstractExtractor',
 	#instVars : [
 		'filename'
 	],
-	#category : #'Famix-OpenTelemetry-Importer'
+	#category : 'Famix-OpenTelemetry-Importer',
+	#package : 'Famix-OpenTelemetry-Importer'
 }
 
-{ #category : #extraction }
+{ #category : 'extraction' }
 OTelSTONFileExtractor >> extract [
 
 	| file |
@@ -18,19 +19,19 @@ OTelSTONFileExtractor >> extract [
 		  ifFalse: [ self extract: file ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelSTONFileExtractor >> extract: file [
 
 	^ (STONReader on: file readStream) next
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelSTONFileExtractor >> filename [
 
 	^ filename
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelSTONFileExtractor >> filename: anObject [
 
 	filename := anObject

@@ -2,12 +2,13 @@
 I keep the traces that match my `selector` block.
 "
 Class {
-	#name : #OTelSelectQuery,
-	#superclass : #OTelQuery,
-	#category : #'Famix-OpenTelemetry-Importer'
+	#name : 'OTelSelectQuery',
+	#superclass : 'OTelQuery',
+	#category : 'Famix-OpenTelemetry-Importer',
+	#package : 'Famix-OpenTelemetry-Importer'
 }
 
-{ #category : #transforming }
+{ #category : 'transforming' }
 OTelSelectQuery >> value: model [
 	"Only keep selected spans in the model."
 
