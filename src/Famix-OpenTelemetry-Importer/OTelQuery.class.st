@@ -31,7 +31,8 @@ OTelQuery >> removeSpan: span [
 	span trace: nil.
 	span context: nil.
 	parent := span parent.
-	span children do: [ :child | child parent: parent ].
+	span children do: [ :child |
+		child ifNotNil: [ child parent: parent ] ].
 	span parent: nil.
 	span mooseModel remove: span
 ]

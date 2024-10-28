@@ -52,9 +52,8 @@ OTelZipkinLoader >> loadSpan: rawSpan [
 		        tags: (rawSpan at: 'tags');
 		        timestamp: (rawSpan at: 'timestamp');
 		        duration: (rawSpan at: 'duration').
-	rawSpan
-		at: 'parentId'
-		ifPresent: [ :pid | span parent: (entityDict at: pid) ].
+	rawSpan at: 'parentId' ifPresent: [ :pid |
+		entityDict at: pid ifPresent: [ :parent | span parent: parent ] ].
 	^ entityDict at: span id put: span
 ]
 
