@@ -3,8 +3,8 @@ I am a post-transformer that links `Span`s to their origin in a Famix model, and
 The arguments and result information is recovered from the tags using the configured keys.
 "
 Class {
-	#name : #OTelFamixValueLinker,
-	#superclass : #OTelFamixLinker,
+	#name : 'OTelFamixValueLinker',
+	#superclass : 'OTelFamixLinker',
 	#instVars : [
 		'argsKey',
 		'resultKey',
@@ -12,16 +12,17 @@ Class {
 		'shouldResetImporter',
 		'receiverKey'
 	],
-	#category : #'Famix-OpenTelemetry-Importer-Value'
+	#category : 'Famix-OpenTelemetry-Importer-Value',
+	#package : 'Famix-OpenTelemetry-Importer-Value'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelFamixValueLinker >> argsKey: aString [
 
 	argsKey := aString
 ]
 
-{ #category : #links }
+{ #category : 'links' }
 OTelFamixValueLinker >> linkArguments: span [
 	"Link the serialized arguments to the Famix model."
 
@@ -38,7 +39,7 @@ OTelFamixValueLinker >> linkArguments: span [
 					span: span ] ]
 ]
 
-{ #category : #transforming }
+{ #category : 'links' }
 OTelFamixValueLinker >> linkReceiver: span [
 
 	receiverKey ifNil: [ ^ self ].
@@ -47,7 +48,7 @@ OTelFamixValueLinker >> linkReceiver: span [
 			span ]
 ]
 
-{ #category : #links }
+{ #category : 'links' }
 OTelFamixValueLinker >> linkResult: span [
 	"Link the serialized result to the Famix model."
 
@@ -58,59 +59,56 @@ OTelFamixValueLinker >> linkResult: span [
 			resultInSpan: span ]
 ]
 
-{ #category : #transforming }
+{ #category : 'links' }
+OTelFamixValueLinker >> linkSpan: span [
+
+	importer reset.
+	self linkOrigin: span.
+	self linkReceiver: span.
+	self shouldResetImporter ifTrue: [ importer reset ].
+	self shouldLinkResultFirst
+		ifTrue: [ self linkResult: span ]
+		ifFalse: [ self linkArguments: span ].
+	self shouldResetImporter ifTrue: [ importer reset ].
+	self shouldLinkResultFirst
+		ifTrue: [ self linkArguments: span ]
+		ifFalse: [ self linkResult: span ]
+]
+
+{ #category : 'accessing' }
 OTelFamixValueLinker >> receiverKey: aString [
 
 	receiverKey := aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelFamixValueLinker >> resultKey: aString [
 
 	resultKey := aString
 ]
 
-{ #category : #transforming }
+{ #category : 'accessing' }
 OTelFamixValueLinker >> shouldLinkResultFirst [
 
 	^ shouldLinkResultFirst ifNil: [ shouldLinkResultFirst := true ]
 ]
 
-{ #category : #transforming }
+{ #category : 'accessing' }
 OTelFamixValueLinker >> shouldLinkResultFirst: aBoolean [
 	"Whether to link the result before the arguments."
 
 	shouldLinkResultFirst := aBoolean
 ]
 
-{ #category : #transforming }
+{ #category : 'accessing' }
 OTelFamixValueLinker >> shouldResetImporter [
 
 	^ shouldResetImporter ifNil: [ shouldResetImporter := true ]
 ]
 
-{ #category : #transforming }
+{ #category : 'accessing' }
 OTelFamixValueLinker >> shouldResetImporter: aBoolean [
 	"Whether the importer should be reset between linking the result and arguments."
 
 	shouldResetImporter := aBoolean
-]
-
-{ #category : #transforming }
-OTelFamixValueLinker >> value: model [
-	"Link trace model with a Famix model using class, method, args and result tags."
-
-	model allSpans do: [ :span |
-		importer reset.
-		self linkOrigin: span.
-		self linkReceiver: span.
-		self shouldResetImporter ifTrue: [ importer reset ].
-		self shouldLinkResultFirst
-			ifTrue: [ self linkResult: span ]
-			ifFalse: [ self linkArguments: span ].
-		self shouldResetImporter ifTrue: [ importer reset ].
-		self shouldLinkResultFirst
-			ifTrue: [ self linkArguments: span ]
-			ifFalse: [ self linkResult: span ] ].
-	^ model
 ]

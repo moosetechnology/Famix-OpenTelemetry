@@ -35,6 +35,12 @@ OTelFamixLinker >> linkOrigin: span [
 			 in: (importer loadTypeNamed: (span tags at: classKey)))
 ]
 
+{ #category : 'links' }
+OTelFamixLinker >> linkSpan: span [
+
+	self linkOrigin: span
+]
+
 { #category : 'accessing' }
 OTelFamixLinker >> methodKey: aString [
 
@@ -45,6 +51,6 @@ OTelFamixLinker >> methodKey: aString [
 OTelFamixLinker >> value: model [
 	"Link trace model with a Java model using class and method tags."
 
-	model allSpans do: [ :span | self linkOrigin: span ].
+	model allSpans do: [ :span | self linkSpan: span ].
 	^ model
 ]

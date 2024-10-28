@@ -1,1 +1,1 @@
-Package { #name : #'Famix-OpenTelemetry-Importer-Value' }
+Package { #name : 'Famix-OpenTelemetry-Importer-Value' }
