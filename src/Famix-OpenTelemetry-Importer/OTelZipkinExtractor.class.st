@@ -14,6 +14,12 @@ Class {
 }
 
 { #category : 'parameters' }
+OTelZipkinExtractor >> endTs [
+
+	^ self parameters at: 'endTs' ifAbsent: [ nil ]
+]
+
+{ #category : 'parameters' }
 OTelZipkinExtractor >> endTs: anInteger [
 	"Only return traces where all timestamp are at or before this time in epoch milliseconds."
 
@@ -44,9 +50,21 @@ OTelZipkinExtractor >> extract [
 ]
 
 { #category : 'parameters' }
+OTelZipkinExtractor >> limit [
+
+	^ self parameters at: 'limit' ifAbsent: [ nil ]
+]
+
+{ #category : 'parameters' }
 OTelZipkinExtractor >> limit: anInteger [
 
 	self parameters at: 'limit' put: anInteger
+]
+
+{ #category : 'parameters' }
+OTelZipkinExtractor >> lookback [
+
+	^ self parameters at: 'lookback' ifAbsent: [ nil ]
 ]
 
 { #category : 'parameters' }
@@ -68,13 +86,30 @@ OTelZipkinExtractor >> request [
 	^ String streamContents: [ :stream |
 		  stream << endpoint << '/api/v2/traces?'.
 		  self parameters associationsDo: [ :param |
-			  stream << $& << param key << $= << param value asString ] ]
+			  stream << $& << param key << $= << param value asString ].
+		  "if not explicitly set, use endTs as current time"
+		  parameters at: 'endTs' ifAbsent: [
+			  stream << '&endTs='.
+			  (DateAndTime now - DateAndTime unixEpoch) asMilliSeconds
+				  printOn: stream ] ]
+]
+
+{ #category : 'parameters' }
+OTelZipkinExtractor >> serviceName [
+
+	^ self parameters at: 'serviceName' ifAbsent: [ nil ]
 ]
 
 { #category : 'parameters' }
 OTelZipkinExtractor >> serviceName: aString [
 
 	self parameters at: 'serviceName' put: aString
+]
+
+{ #category : 'parameters' }
+OTelZipkinExtractor >> spanName [
+
+	^ self parameters at: 'spanName' ifAbsent: [ nil ]
 ]
 
 { #category : 'parameters' }

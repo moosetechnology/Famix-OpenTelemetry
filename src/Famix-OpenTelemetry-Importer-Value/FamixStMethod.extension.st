@@ -1,6 +1,6 @@
-Extension { #name : #FamixStMethod }
+Extension { #name : 'FamixStMethod' }
 
-{ #category : #'*Famix-OpenTelemetry-Importer-Value' }
+{ #category : '*Famix-OpenTelemetry-Importer-Value' }
 FamixStMethod >> sortedParameters [
 
 	^ parameters
