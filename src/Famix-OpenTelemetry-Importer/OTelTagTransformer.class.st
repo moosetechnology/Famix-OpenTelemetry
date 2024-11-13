@@ -2,40 +2,41 @@
 I am a transformer that modifies `Span` tags that match a predicate with a pluggable block.
 "
 Class {
-	#name : #OTelTagTransformer,
-	#superclass : #OTelAbstractTransformer,
+	#name : 'OTelTagTransformer',
+	#superclass : 'OTelAbstractTransformer',
 	#instVars : [
 		'predicate',
 		'block'
 	],
-	#category : #'Famix-OpenTelemetry-Importer'
+	#category : 'Famix-OpenTelemetry-Importer',
+	#package : 'Famix-OpenTelemetry-Importer'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelTagTransformer >> block [
 
 	^ block
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelTagTransformer >> block: aBlock [
 
 	block := aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelTagTransformer >> predicate [
 
 	^ predicate
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelTagTransformer >> predicate: aBlock [
 
 	predicate := aBlock
 ]
 
-{ #category : #transforming }
+{ #category : 'transforming' }
 OTelTagTransformer >> value: model [
 	"Apply the block to span tags that fit the predicate."
 

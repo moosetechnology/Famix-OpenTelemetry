@@ -3,29 +3,30 @@ I am a transformer that links `Span`s to their origin in a Famix model.
 The origin information is recovered from the tags using the configured keys.
 "
 Class {
-	#name : #OTelFamixLinker,
-	#superclass : #OTelAbstractTransformer,
+	#name : 'OTelFamixLinker',
+	#superclass : 'OTelAbstractTransformer',
 	#instVars : [
 		'classKey',
 		'methodKey',
 		'importer'
 	],
-	#category : #'Famix-OpenTelemetry-Importer'
+	#category : 'Famix-OpenTelemetry-Importer',
+	#package : 'Famix-OpenTelemetry-Importer'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelFamixLinker >> classKey: aString [
 
 	classKey := aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelFamixLinker >> importer: aFamixValueImporter [
 
 	importer := aFamixValueImporter
 ]
 
-{ #category : #links }
+{ #category : 'links' }
 OTelFamixLinker >> linkOrigin: span [
 	"Link the span origin to the method in the Famix model."
 
@@ -34,13 +35,13 @@ OTelFamixLinker >> linkOrigin: span [
 			 in: (importer loadTypeNamed: (span tags at: classKey)))
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelFamixLinker >> methodKey: aString [
 
 	methodKey := aString
 ]
 
-{ #category : #transforming }
+{ #category : 'transforming' }
 OTelFamixLinker >> value: model [
 	"Link trace model with a Java model using class and method tags."
 

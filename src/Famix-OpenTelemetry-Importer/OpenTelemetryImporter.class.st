@@ -5,17 +5,18 @@ Load: instantiate trace model.
 Transform: process the model with actions such as filtering or linking to another model.
 "
 Class {
-	#name : #OpenTelemetryImporter,
-	#superclass : #Object,
+	#name : 'OpenTelemetryImporter',
+	#superclass : 'Object',
 	#instVars : [
 		'extractor',
 		'loader',
 		'transformers'
 	],
-	#category : #'Famix-OpenTelemetry-Importer'
+	#category : 'Famix-OpenTelemetry-Importer',
+	#package : 'Famix-OpenTelemetry-Importer'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OpenTelemetryImporter class >> importFromJavaLogFile: aFilePath [
 
 	^ OpenTelemetryImporter new
@@ -24,19 +25,19 @@ OpenTelemetryImporter class >> importFromJavaLogFile: aFilePath [
 		  import
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OpenTelemetryImporter >> extractor [
 
 	^ extractor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OpenTelemetryImporter >> extractor: anExtractor [
 
 	extractor := anExtractor
 ]
 
-{ #category : #importing }
+{ #category : 'importing' }
 OpenTelemetryImporter >> import [
 	"Import traces into a model using the configured extractor, loader and transformers."
 
@@ -48,25 +49,25 @@ OpenTelemetryImporter >> import [
 	^ data
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OpenTelemetryImporter >> loader [
 
 	^ loader
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OpenTelemetryImporter >> loader: anObject [
 
 	loader := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OpenTelemetryImporter >> transformers [
 
 	^ transformers ifNil: [ transformers := {  } ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OpenTelemetryImporter >> transformers: aCollection [
 
 	transformers := aCollection

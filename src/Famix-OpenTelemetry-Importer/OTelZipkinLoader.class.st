@@ -2,15 +2,16 @@
 I load a model from Zipkin data.
 "
 Class {
-	#name : #OTelZipkinLoader,
-	#superclass : #OTelAbstractLoader,
+	#name : 'OTelZipkinLoader',
+	#superclass : 'OTelAbstractLoader',
 	#instVars : [
 		'entityDict'
 	],
-	#category : #'Famix-OpenTelemetry-Importer'
+	#category : 'Famix-OpenTelemetry-Importer',
+	#package : 'Famix-OpenTelemetry-Importer'
 }
 
-{ #category : #loading }
+{ #category : 'loading' }
 OTelZipkinLoader >> load: rawTraces [
 	"Instantiate trace model from Zipkin data."
 
@@ -29,7 +30,7 @@ OTelZipkinLoader >> load: rawTraces [
 	^ self model
 ]
 
-{ #category : #'private - loading' }
+{ #category : 'private - loading' }
 OTelZipkinLoader >> loadContext: rawSpan [
 
 	| ctxData serviceName |
@@ -41,7 +42,7 @@ OTelZipkinLoader >> loadContext: rawSpan [
 			  data: ctxData ]
 ]
 
-{ #category : #'private - loading' }
+{ #category : 'private - loading' }
 OTelZipkinLoader >> loadSpan: rawSpan [
 
 	| span |
@@ -57,7 +58,7 @@ OTelZipkinLoader >> loadSpan: rawSpan [
 	^ entityDict at: span id put: span
 ]
 
-{ #category : #'private - loading' }
+{ #category : 'private - loading' }
 OTelZipkinLoader >> loadTrace: rawSpan [
 
 	^ rawSpan at: 'traceId' ifPresent: [ :tid |

@@ -3,27 +3,28 @@ I am part of the `OpenTelemetryImporter` pipeline.
 My subclasses extract OpenTelemetry traces from external sources.
 "
 Class {
-	#name : #OTelAbstractExtractor,
-	#superclass : #Object,
+	#name : 'OTelAbstractExtractor',
+	#superclass : 'Object',
 	#instVars : [
 		'outputFilename'
 	],
-	#category : #'Famix-OpenTelemetry-Importer'
+	#category : 'Famix-OpenTelemetry-Importer',
+	#package : 'Famix-OpenTelemetry-Importer'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 OTelAbstractExtractor class >> isAbstract [
 
 	^ self == OTelAbstractExtractor
 ]
 
-{ #category : #extraction }
+{ #category : 'extraction' }
 OTelAbstractExtractor >> extract [
 
 	self subclassResponsibility
 ]
 
-{ #category : #fileout }
+{ #category : 'fileout' }
 OTelAbstractExtractor >> output: blockOrSerializedValue [
 
 	outputFilename ifNotNil: [
@@ -31,7 +32,7 @@ OTelAbstractExtractor >> output: blockOrSerializedValue [
 			 writeStream nextPutAll: blockOrSerializedValue value) close ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelAbstractExtractor >> outputFilename: filename [
 	"Set an optional file to save the extracted data."
 

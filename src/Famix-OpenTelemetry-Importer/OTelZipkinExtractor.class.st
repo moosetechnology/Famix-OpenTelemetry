@@ -3,35 +3,36 @@ I extract traces from a Zipkin server.
 See [Zipkin API](https://zipkin.io/zipkin-api).
 "
 Class {
-	#name : #OTelZipkinExtractor,
-	#superclass : #OTelAbstractExtractor,
+	#name : 'OTelZipkinExtractor',
+	#superclass : 'OTelAbstractExtractor',
 	#instVars : [
 		'endpoint',
 		'parameters'
 	],
-	#category : #'Famix-OpenTelemetry-Importer'
+	#category : 'Famix-OpenTelemetry-Importer',
+	#package : 'Famix-OpenTelemetry-Importer'
 }
 
-{ #category : #parameters }
+{ #category : 'parameters' }
 OTelZipkinExtractor >> endTs: anInteger [
 	"Only return traces where all timestamp are at or before this time in epoch milliseconds."
 
 	self parameters at: 'endTs' put: anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelZipkinExtractor >> endpoint [
 
 	^ endpoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelZipkinExtractor >> endpoint: host [
 
 	endpoint := host
 ]
 
-{ #category : #extraction }
+{ #category : 'extraction' }
 OTelZipkinExtractor >> extract [
 	"Ask Zipkin server for traces and parse result."
 
@@ -42,26 +43,26 @@ OTelZipkinExtractor >> extract [
 	^ (NeoJSONReader on: data readStream) parseList
 ]
 
-{ #category : #parameters }
+{ #category : 'parameters' }
 OTelZipkinExtractor >> limit: anInteger [
 
 	self parameters at: 'limit' put: anInteger
 ]
 
-{ #category : #parameters }
+{ #category : 'parameters' }
 OTelZipkinExtractor >> lookback: anInteger [
 	"Only return traces where all timestamp are at or after `endTs - lookback`, in  milliseconds."
 
 	self parameters at: 'lookback' put: anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OTelZipkinExtractor >> parameters [
 
 	^ parameters ifNil: [ parameters := Dictionary new ]
 ]
 
-{ #category : #extraction }
+{ #category : 'extraction' }
 OTelZipkinExtractor >> request [
 
 	^ String streamContents: [ :stream |
@@ -70,13 +71,13 @@ OTelZipkinExtractor >> request [
 			  stream << $& << param key << $= << param value asString ] ]
 ]
 
-{ #category : #parameters }
+{ #category : 'parameters' }
 OTelZipkinExtractor >> serviceName: aString [
 
 	self parameters at: 'serviceName' put: aString
 ]
 
-{ #category : #parameters }
+{ #category : 'parameters' }
 OTelZipkinExtractor >> spanName: aString [
 
 	self parameters at: 'spanName' put: aString
