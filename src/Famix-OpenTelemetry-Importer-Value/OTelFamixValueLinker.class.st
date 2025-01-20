@@ -62,6 +62,8 @@ OTelFamixValueLinker >> linkResult: span [
 { #category : 'links' }
 OTelFamixValueLinker >> linkSpan: span [
 
+	((span tags at: classKey) , '#' , (span tags at: methodKey)) record.
+	[
 	importer reset.
 	self linkOrigin: span.
 	self linkReceiver: span.
@@ -72,7 +74,11 @@ OTelFamixValueLinker >> linkSpan: span [
 	self shouldResetImporter ifTrue: [ importer reset ].
 	self shouldLinkResultFirst
 		ifTrue: [ self linkArguments: span ]
-		ifFalse: [ self linkResult: span ]
+		ifFalse: [ self linkResult: span ] ]
+		on: Error
+		do: [ :e |
+			span cacheAt: #skip put: true.
+			Warning signal: ('Skipping import because: ' , e asString) record ]
 ]
 
 { #category : 'accessing' }
