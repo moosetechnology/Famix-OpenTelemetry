@@ -1,3 +1,6 @@
+"
+I extract traces from a STON file.
+"
 Class {
 	#name : 'OTelSTONFileExtractor',
 	#superclass : 'OTelAbstractExtractor',
