@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfFamixOpenTelemetry }
+Package { #name : 'BaselineOfFamixOpenTelemetry' }

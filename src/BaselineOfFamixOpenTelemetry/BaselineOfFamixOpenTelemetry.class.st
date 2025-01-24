@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfFamixOpenTelemetry,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfFamixOpenTelemetry
+	#name : 'BaselineOfFamixOpenTelemetry',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfFamixOpenTelemetry',
+	#package : 'BaselineOfFamixOpenTelemetry'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfFamixOpenTelemetry >> baseline: spec [
 
 	<baseline>
@@ -14,7 +15,7 @@ BaselineOfFamixOpenTelemetry >> baseline: spec [
 		self groups: spec ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfFamixOpenTelemetry >> dependencies: spec [
 
 	spec
@@ -26,7 +27,7 @@ BaselineOfFamixOpenTelemetry >> dependencies: spec [
 			spec repository: 'github://moosetechnology/Famix-Value:main/src' ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfFamixOpenTelemetry >> groups: spec [
 
 	spec
@@ -49,7 +50,7 @@ BaselineOfFamixOpenTelemetry >> groups: spec [
 			   'FamixValue' )
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfFamixOpenTelemetry >> packages: spec [
 
 	spec
@@ -60,6 +61,8 @@ BaselineOfFamixOpenTelemetry >> packages: spec [
 		package: 'Famix-OpenTelemetry-Presenter'
 		with: [ spec requires: 'Famix-OpenTelemetry-Entities' ];
 		package: 'Famix-OpenTelemetry-Importer-Elasticsearch'
+		with: [ spec requires: 'Famix-OpenTelemetry-Importer' ];
+		package: 'Famix-OpenTelemetry-Importer-Coverage'
 		with: [ spec requires: 'Famix-OpenTelemetry-Importer' ];
 		package: 'Famix-OpenTelemetry-Value-Generator';
 		package: 'Famix-OpenTelemetry-Value-Entities';
