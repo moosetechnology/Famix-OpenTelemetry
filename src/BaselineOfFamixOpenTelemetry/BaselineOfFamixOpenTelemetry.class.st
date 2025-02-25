@@ -24,7 +24,10 @@ BaselineOfFamixOpenTelemetry >> dependencies: spec [
 					'github://Evref-BL/Elasticsearch-Pharo-API:main/src' ];
 		baseline: 'FamixValue'
 		with: [
-			spec repository: 'github://moosetechnology/Famix-Value:main/src' ]
+			spec repository: 'github://moosetechnology/Famix-Value:main/src' ];
+		baseline: 'FamixCoverage'
+		with: [
+			spec repository: 'github://moosetechnology/Famix-Coverage:main/src' ]
 ]
 
 { #category : 'baselines' }
@@ -32,7 +35,8 @@ BaselineOfFamixOpenTelemetry >> groups: spec [
 
 	spec
 		group: 'default' with: #( 'model' 'importer' );
-		group: 'all' with: #( 'default' 'elasticsearch' 'value' );
+		group: 'all'
+		with: #( 'default' 'elasticsearch' 'value' 'coverage' );
 		group: 'model'
 		with:
 			#( 'Famix-OpenTelemetry-Entities' 'Famix-OpenTelemetry-Entities-Extensions'
@@ -47,7 +51,10 @@ BaselineOfFamixOpenTelemetry >> groups: spec [
 		with: #( 'default' 'Famix-OpenTelemetry-Value-Generator'
 			   'Famix-OpenTelemetry-Value-Entities'
 			   'Famix-OpenTelemetry-Importer-Value'
-			   'FamixValue' )
+			   'FamixValue' );
+		group: 'coverage'
+		with: #( 'default' 'Famix-OpenTelemetry-Importer-Coverage'
+			   'FamixCoverage' )
 ]
 
 { #category : 'baselines' }
