@@ -4,7 +4,7 @@ The arguments and result information is recovered from the tags using the config
 "
 Class {
 	#name : 'OTelFamixValueLinker',
-	#superclass : 'OTelFamixLinker',
+	#superclass : 'OTelFamixOriginLinker',
 	#instVars : [
 		'argsKey',
 		'resultKey',
@@ -22,7 +22,7 @@ OTelFamixValueLinker >> argsKey: aString [
 	argsKey := aString
 ]
 
-{ #category : 'links' }
+{ #category : 'transforming' }
 OTelFamixValueLinker >> linkArguments: span [
 	"Link the serialized arguments to the Famix model."
 
@@ -39,7 +39,7 @@ OTelFamixValueLinker >> linkArguments: span [
 					span: span ] ]
 ]
 
-{ #category : 'links' }
+{ #category : 'transforming' }
 OTelFamixValueLinker >> linkReceiver: span [
 
 	receiverKey ifNil: [ ^ self ].
@@ -48,7 +48,7 @@ OTelFamixValueLinker >> linkReceiver: span [
 			span ]
 ]
 
-{ #category : 'links' }
+{ #category : 'transforming' }
 OTelFamixValueLinker >> linkResult: span [
 	"Link the serialized result to the Famix model."
 
@@ -59,7 +59,7 @@ OTelFamixValueLinker >> linkResult: span [
 			resultInSpan: span ]
 ]
 
-{ #category : 'links' }
+{ #category : 'transforming' }
 OTelFamixValueLinker >> linkSpan: span [
 
 	((span tags at: classKey) , '#' , (span tags at: methodKey)) record.

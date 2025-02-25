@@ -1,6 +1,5 @@
 "
-I am a transformer that links `Span`s to their origin in a Famix model.
-The origin information is recovered from the tags using the configured keys.
+I am a transformer that allows linking `Span`s to a Famix model.
 "
 Class {
 	#name : 'OTelFamixLinker',
@@ -14,6 +13,12 @@ Class {
 	#package : 'Famix-OpenTelemetry-Importer'
 }
 
+{ #category : 'testing' }
+OTelFamixLinker class >> isAbstract [
+
+	^ self == OTelFamixLinker
+]
+
 { #category : 'accessing' }
 OTelFamixLinker >> classKey: aString [
 
@@ -21,24 +26,15 @@ OTelFamixLinker >> classKey: aString [
 ]
 
 { #category : 'accessing' }
-OTelFamixLinker >> importer: aFamixValueImporter [
+OTelFamixLinker >> importer: anImporter [
 
-	importer := aFamixValueImporter
+	importer := anImporter
 ]
 
-{ #category : 'links' }
-OTelFamixLinker >> linkOrigin: span [
-	"Link the span origin to the method in the Famix model."
-
-	span origin: (importer entityFinder
-			 findMethodWithSignature: (span tags at: methodKey)
-			 in: (importer loadTypeNamed: (span tags at: classKey)))
-]
-
-{ #category : 'links' }
+{ #category : 'transforming' }
 OTelFamixLinker >> linkSpan: span [
 
-	self linkOrigin: span
+	self subclassResponsibility
 ]
 
 { #category : 'accessing' }
