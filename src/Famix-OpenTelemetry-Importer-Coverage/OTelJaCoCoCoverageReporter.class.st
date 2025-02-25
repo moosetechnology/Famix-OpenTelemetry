@@ -1,5 +1,8 @@
+"
+Generates JaCoCo reports from raw execution data embedded in traces.
+"
 Class {
-	#name : 'OTelCoverageExtractor',
+	#name : 'OTelJaCoCoCoverageReporter',
 	#superclass : 'OTelAbstractTransformer',
 	#instVars : [
 		'coverageKey',
@@ -12,31 +15,31 @@ Class {
 }
 
 { #category : 'accessing' }
-OTelCoverageExtractor >> classPaths [
+OTelJaCoCoCoverageReporter >> classPaths [
 
 	^ classPaths
 ]
 
 { #category : 'accessing' }
-OTelCoverageExtractor >> classPaths: aStringCollection [
+OTelJaCoCoCoverageReporter >> classPaths: aStringCollection [
 
 	classPaths := aStringCollection
 ]
 
 { #category : 'accessing' }
-OTelCoverageExtractor >> coverageKey [
+OTelJaCoCoCoverageReporter >> coverageKey [
 
 	^ coverageKey
 ]
 
 { #category : 'accessing' }
-OTelCoverageExtractor >> coverageKey: aString [
+OTelJaCoCoCoverageReporter >> coverageKey: aString [
 
 	coverageKey := aString
 ]
 
 { #category : 'transforming' }
-OTelCoverageExtractor >> extractCoverageFrom: span [
+OTelJaCoCoCoverageReporter >> extractCoverageFrom: span [
 
 	| filename |
 	filename := span name , '.' , span hash asString.
@@ -51,7 +54,7 @@ OTelCoverageExtractor >> extractCoverageFrom: span [
 ]
 
 { #category : 'writing' }
-OTelCoverageExtractor >> htmlWriteCommandForFileNamed: filename [
+OTelJaCoCoCoverageReporter >> htmlWriteCommandForFileNamed: filename [
 
 	| outputFullPath |
 	outputFullPath := (outputPath asFileReference / filename)
@@ -69,38 +72,38 @@ OTelCoverageExtractor >> htmlWriteCommandForFileNamed: filename [
 ]
 
 { #category : 'accessing' }
-OTelCoverageExtractor >> jarPath [
+OTelJaCoCoCoverageReporter >> jarPath [
 
 	^ jarPath
 ]
 
 { #category : 'accessing' }
-OTelCoverageExtractor >> jarPath: aString [
+OTelJaCoCoCoverageReporter >> jarPath: aString [
 
 	jarPath := aString
 ]
 
 { #category : 'accessing' }
-OTelCoverageExtractor >> outputPath [
+OTelJaCoCoCoverageReporter >> outputPath [
 
 	^ outputPath
 ]
 
 { #category : 'accessing' }
-OTelCoverageExtractor >> outputPath: aString [
+OTelJaCoCoCoverageReporter >> outputPath: aString [
 
 	outputPath := aString
 ]
 
 { #category : 'transforming' }
-OTelCoverageExtractor >> value: model [
+OTelJaCoCoCoverageReporter >> value: model [
 
 	model allSpans do: [ :span | self extractCoverageFrom: span ].
 	^ model
 ]
 
 { #category : 'writing' }
-OTelCoverageExtractor >> writeCommandForFileNamed: filename [
+OTelJaCoCoCoverageReporter >> writeCommandForFileNamed: filename [
 	"This command generates a JaCoCo report for the given execution data file and saves the result as an XML file.
 	It dynamically appends all relevant `--classfiles` arguments for classes associated with the execution data.
 	These class files are searched in multiple directories (`paths`) and filtered to include only those that exist.
