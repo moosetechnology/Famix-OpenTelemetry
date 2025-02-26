@@ -28,7 +28,7 @@ OTelUnitCoverageExtractor >> coverageKey: aString [
 OTelUnitCoverageExtractor >> linkSpan: span [
 
 	importer
-		parseCoverage: (span tags at: coverageKey) base64Decoded
+		importCoverage: (span tags at: coverageKey) base64Decoded
 		ofMethod: (importer entityFinder
 				 findMethodWithSignature: (span tags at: methodKey)
 				 in:
