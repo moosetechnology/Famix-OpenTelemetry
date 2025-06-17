@@ -17,9 +17,9 @@ Class {
 }
 
 { #category : 'accessing' }
-OTelFamixValueLinker >> argsKey: aString [
+OTelFamixValueLinker >> argumentsKey: aString [
 
-	argsKey := aString
+	argumentsKey := aString
 ]
 
 { #category : 'transforming' }
@@ -27,7 +27,7 @@ OTelFamixValueLinker >> linkArguments: span [
 	"Link the serialized arguments to the Famix model."
 
 	span origin parameters isEmpty ifTrue: [ ^ self ].
-	(importer parseList: (span tags at: argsKey))
+	(importer parseList: (span tags at: argumentsKey))
 		with: span origin sortedParameters
 		do: [ :rawArg :parameter |
 			importer withTypeInference: parameter declaredType do: [
