@@ -1,1 +1,1 @@
-Package { #name : #'Famix-OpenTelemetry-Entities-Extensions' }
+Package { #name : 'Famix-OpenTelemetry-Entities-Extensions' }

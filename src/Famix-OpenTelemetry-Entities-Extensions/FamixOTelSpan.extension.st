@@ -1,6 +1,6 @@
-Extension { #name : #FamixOTelSpan }
+Extension { #name : 'FamixOTelSpan' }
 
-{ #category : #'*Famix-OpenTelemetry-Entities-Extensions' }
+{ #category : '*Famix-OpenTelemetry-Entities-Extensions' }
 FamixOTelSpan >> mooseNameOn: stream [
 
 	stream nextPutAll: name.
