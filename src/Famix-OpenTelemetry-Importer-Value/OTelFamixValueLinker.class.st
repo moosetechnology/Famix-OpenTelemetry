@@ -6,11 +6,11 @@ Class {
 	#name : 'OTelFamixValueLinker',
 	#superclass : 'OTelFamixOriginLinker',
 	#instVars : [
-		'argsKey',
 		'resultKey',
 		'shouldLinkResultFirst',
 		'shouldResetImporter',
-		'receiverKey'
+		'receiverKey',
+		'argumentsKey'
 	],
 	#category : 'Famix-OpenTelemetry-Importer-Value',
 	#package : 'Famix-OpenTelemetry-Importer-Value'
@@ -62,7 +62,7 @@ OTelFamixValueLinker >> linkResult: span [
 { #category : 'transforming' }
 OTelFamixValueLinker >> linkSpan: span [
 
-	((span tags at: classKey) , '#' , (span tags at: methodKey)) record.
+	[ (span tags at: classKey) , '#' , (span tags at: methodKey) ] record.
 	[
 	importer reset.
 	self linkOrigin: span.
@@ -77,8 +77,8 @@ OTelFamixValueLinker >> linkSpan: span [
 		ifFalse: [ self linkResult: span ] ]
 		on: Error
 		do: [ :e |
-			span cacheAt: #skip put: true.
-			Warning signal: ('Skipping import because: ' , e asString) record ]
+			span skip.
+			Warning signal: ('Skipped because: ' , e asString) record ]
 ]
 
 { #category : 'accessing' }

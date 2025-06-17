@@ -12,3 +12,15 @@ FamixOTelSpan >> mooseNameOn: stream [
 			nextPutAll: origin signature;
 			nextPut: $) ]
 ]
+
+{ #category : '*Famix-OpenTelemetry-Entities-Extensions' }
+FamixOTelSpan >> skip [
+
+	self cacheAt: #skip put: true
+]
+
+{ #category : '*Famix-OpenTelemetry-Entities-Extensions' }
+FamixOTelSpan >> skipped [
+
+	^ self cacheAt: #skip ifAbsent: false
+]
